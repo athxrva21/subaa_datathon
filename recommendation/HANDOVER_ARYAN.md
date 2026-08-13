@@ -46,14 +46,14 @@ The two you must have:
 | A5 | Sensitivity grid $24.8–70.8M | ✅ `E5_sensitivity.png` |
 | A6 | Data quality register | ✅ written |
 | A7 | Early-tenure correction | ✅ written |
-| A8 | **Statistical test appendix — 18 Pt 2 findings with p-values** | ⚠️ **you extract** |
-| A9 | Glossary | 🟡 lift verbatim from `findings_part2.md` → "How to read this report" |
-| A10 | Annual Report reconciliation by department | 🟡 in Pt 2 finding 18, needs a table |
+| A8 | Statistical test register — every test, result, p, n | ✅ written |
+| A9 | Glossary | ✅ written |
+| A10 | Annual Report reconciliation by department | ✅ written |
 | A11 | Script inventory / reproducibility | ✅ `ASSUMPTIONS.md` §7 |
-| A12 | Chart index | ⚠️ you build once figures are final |
+| A12 | Chart index + cut list | ✅ written |
 | A13 | Risk & Compliance + department breakdown | ✅ written |
 
-**A8 is the one that matters.** Rigour is 25% of the grade and Part 2 is our strongest rigour evidence — 18 findings, every one with a real significance test — and right now it's the least visible work in the project. It doesn't need to be pretty: a table of finding / test used / result / p-value / n is enough.
+**Every appendix page is written.** Your job on the appendix is formatting and pagination only — no content to author. A12 doubles as your chart worklist and tells you exactly which figure goes on which slide.
 
 ---
 
