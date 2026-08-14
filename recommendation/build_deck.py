@@ -486,18 +486,20 @@ def slide_11(prs):
 def slide_12(prs):
     s = blank(prs)
     chrome(s, "How not to act on this",
-           "A “who stopped answering” flag looks free. It flags 21.6% of under-25s "
-           "and 3.3% of 45–49s.", 12,
-           "Four-fifths rule applied to a proposed individual flight-risk flag. 901 active "
-           "staff flagged. Full fairness method and results in appendix A4.", hl_size=25)
+           "A “who stopped answering” flag looks free. It flags 16.6% of 18–24s "
+           "and 1.4% of 45–49s.", 12,
+           "Four-fifths rule applied to a proposed individual flight-risk flag, on all active "
+           "staff. All figures from ethics_audit.py. Full fairness method and results in "
+           "appendix A4.", hl_size=25)
     bullets(s, MARGIN, Inches(2.05), Inches(4.9), Inches(4.5), [
         "The obvious move from our own analysis is a flight-risk score built on survey "
         "silence. **We recommend against deploying it at individual level.**",
-        "Under the **four-fifths rule** it fails on age (impact ratio **0.15**), on role "
-        "level (L1 9.2% vs L5 1.4%) and on acquisition cohort (Entity_C 36.9%, "
-        "Entity_B 28.2% vs Entity_A 4.1%).",
-        "It is also **wrong most of the time**: 901 flagged, **precision 23%**. The "
-        "dominant outcome is a career conversation about someone who was never leaving.",
+        "Under the **four-fifths rule** it fails on age (ratio **0.08**, a twelvefold gap), "
+        "on role level (L1 9.2% vs L5 1.4%) and on acquisition cohort (Entity_C 31.7% vs "
+        "NovaCorp-Origin 2.4%).",
+        "It is also **wrong most of the time**: **901 false positives** against 263 true "
+        "ones, **precision 23%**. The dominant outcome is a career conversation about "
+        "someone who was never leaving.",
         "Low response is concentrated in the acquisition cohorts, so the flag is "
         "substantially measuring **integration failure**, not individual intent.",
     ], size=12, gap=10)

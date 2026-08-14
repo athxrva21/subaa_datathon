@@ -184,12 +184,14 @@ Baseline every acquired group against company norms at their first survey. Track
 
 # SLIDE 12 — ⚠️ How **not** to act on this
 
-**Headline:** *A "who stopped answering" flag looks free. It flags 21.6% of under-25s and 3.3% of 45–49s.*
+**Headline:** *A "who stopped answering" flag looks free. It flags 16.6% of 18–24s and 1.4% of 45–49s.*
 
 **Figure:** `E3_adverse_impact_age.png` (+ `E4_flag_precision.png` if space)
 
 - The obvious move from our own analysis is a flight-risk score built on survey silence. **We recommend against deploying it at individual level.**
-- Under the **four-fifths rule** it fails on age (impact ratio **0.15**), on role level (L1 9.2% vs L5 1.4%) and on acquisition cohort (**Entity_C 36.9%, Entity_B 28.2% vs Entity_A 4.1%**).
+- Under the **four-fifths rule** it fails on age (impact ratio **0.08**, a twelvefold gap), on role level (L1 9.2% vs L5 1.4%, ratio **0.15**) and on acquisition cohort (**Entity_C 31.7%, Entity_B 23.2% vs Entity_A 3.0%**, ratio **0.09**).
+
+*Corrected 14 Aug. An earlier draft read "21.6% of under-25s and 3.3% of 45–49s" and gave the age ratio as 0.15. The 21.6% was the 50–54 rate from the separate `regrettable_flag` adverse-impact test, not the silence flag, and 0.15 is the role-level ratio. All figures now reproduce from `ethics_audit.py`.*
 - It is also **wrong most of the time**: 901 active staff flagged, **precision 23%**. The dominant outcome is a career conversation about someone who was never leaving.
 - Low response is heavily concentrated in the acquisition cohorts — so the flag is substantially measuring **integration failure**, not individual intent.
 
@@ -287,7 +289,7 @@ Both, for different questions. Finance priced the departures HR flagged. We pric
 Point estimate on Finance's own constants. Defensible range $34–56M, varying the replacement multiplier 1.0–2.0× and backfill 70–100%. **Every cell in that grid is above the $14.3M you currently count.**
 
 **"Can't I just run the silence flag? It's free."**
-At team level, yes. As an individual score it fails the four-fifths rule on age by a factor of seven and is wrong 77% of the time.
+At team level, yes. As an individual score it fails the four-fifths rule on age by a factor of twelve and is wrong 77% of the time.
 
 **"Entity_B is only 1,601 people. Why should I care?"**
 You shouldn't care about it for the dollars — NovaCorp-Origin holds $29.2M of the $45.1M on headcount alone. You should care because it's the one place where the cause is identified, the fix is proven, and the budget is already guided.

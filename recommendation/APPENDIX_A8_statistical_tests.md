@@ -66,12 +66,14 @@ A group's selection rate ÷ the highest group's rate. Below 0.80 warrants invest
 
 | Flag | Dimension | Worst ratio | Detail | Verdict |
 |---|---|---|---|---|
-| Proposed silence flag | **Age band** | **0.15** | 18–24: 21.6% flagged vs 45–49: 3.3% | **Fails badly** |
-| Proposed silence flag | Role level | 0.15 | L1 9.2% vs L5 1.4% | Fails |
-| Proposed silence flag | Acquisition cohort | 0.15 | Entity_C 36.9%, Entity_B 28.2% vs Entity_A 4.1% | Fails |
+| Proposed silence flag | **Age band** | **0.08** | 18–24: 16.6% flagged vs 45–49: 1.4%, n = 1,253 / 1,017 | **Fails badly** |
+| Proposed silence flag | Role level | 0.15 | L1 9.2% vs L5 1.4%, n = 6,931 / 74 | Fails |
+| Proposed silence flag | Acquisition cohort | 0.08 | Entity_C 31.7% vs NovaCorp-Origin 2.4%; Entity_B 23.2%, Entity_A 3.0% | Fails |
 | HR `regrettable_flag` | Gender (within Outstanding leavers) | 0.60 | M 74.6% / F 59.4% / NB 44.4% | **Under-powered** — n = 67/64/9. Reported as governance risk requiring audit, **not** as established discrimination |
 
-**Silence flag predictive performance:** 901 active staff flagged; precision **22.6%**, recall 18.8%. Wrong roughly three times in four.
+**Silence flag predictive performance:** 263 true positives, **901 false positives**, 1,137 missed. Precision **22.6%**, recall 18.8%. Wrong roughly three times in four.
+
+*Fairness rows corrected 14 Aug. All three silence-flag ratios previously read 0.15, and the age-band detail quoted 21.6% vs 3.3%, which are the 50–54 figures from the separate `regrettable_flag` test rather than the silence flag. All values above reproduce from `ethics_audit.py`.*
 
 ---
 
