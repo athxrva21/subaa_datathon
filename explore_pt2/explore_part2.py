@@ -20,8 +20,9 @@ from scipy import stats
 
 warnings.filterwarnings("ignore")
 
-DATA_DIR = Path("/mnt/project")
 HERE = Path(__file__).resolve().parent
+# CSVs live in the repo root, one level up from this script
+DATA_DIR = HERE.parent
 OUT_DIR = HERE / "part2b_outputs"
 FIG_DIR = OUT_DIR / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
@@ -785,16 +786,30 @@ def purpose_and_timing(emp, eng_global):
     print("purpose_meaning by wave:"); print(pm.round(3))
     print("\nsenior_leadership_trust by wave:"); print(slt.round(3))
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5.4))
+
+    # Both panels share one y range. Letting matplotlib pick per panel makes the
+    # Entity_B gap look different on the left than the right, which is the whole
+    # point of the slide.
+    lo = min(pm.min().min(), slt.min().min()) - 0.05
+    hi = max(pm.max().max(), slt.max().max()) + 0.05
+
     for ax, data, name in [(axes[0], pm, "Purpose & meaning"),
                             (axes[1], slt, "Senior leadership trust")]:
         for i, ent in enumerate(order):
             ax.plot(data.index, data[ent], "-o", lw=2.2, ms=7, color=SEQ[i], label=ent)
         ax.set_xlabel("Survey wave"); ax.set_ylabel("Score (1-5)")
         ax.set_title(name)
-    axes[1].legend(fontsize=8)
-    fig.suptitle("Entity_B arrives already broken -- and never recovers on its own",
-                 fontsize=13, fontweight="bold", color=ACC_DEEP)
+        ax.set_ylim(lo, hi)
+        ax.set_xticks(sorted(data.index))          # waves are 1 to 5, no half waves
+
+    # Legend sits outside the axes so it cannot cover the Entity_C point.
+    axes[1].legend(fontsize=8.5, loc="center left", bbox_to_anchor=(1.02, 0.5))
+    fig.suptitle("Entity_B arrives already broken and never recovers on its own",
+                 fontsize=13.5, fontweight="bold", color=ACC_DEEP, y=1.02)
+    fig.text(0.5, -0.04, "Responders only. Entity_B joins at wave 2 and Entity_C at wave 5, "
+             "so neither has an earlier reading to decline from.",
+             ha="center", fontsize=7.5, color="#5A5A66")
     f1 = savefig(fig, "purpose_trust_over_time")
 
     b_first_pm, b_last_pm = pm["Entity_B"].dropna().iloc[0], pm["Entity_B"].dropna().iloc[-1]
@@ -914,12 +929,22 @@ def entity_dimension_diagnosis(emp, eng_global):
     colors = [ACC_CORAL if r.p_value < 0.01 and r.gap < -0.1 else ACC_GREY for _, r in tbl.iterrows()]
     ax.barh(tbl.dim.str.replace("_", " "), tbl.gap, color=colors)
     ax.axvline(0, color="#333", lw=1)
+
+    # Pad the axis before placing labels. Without this the two long coral bars
+    # push their p-value text straight through the y-axis tick labels and the
+    # slide 7 chart becomes unreadable.
+    lo, hi = tbl.gap.min(), tbl.gap.max()
+    ax.set_xlim(lo * 1.30, max(hi * 1.80, 0.045))
+
     for i, (_, r) in enumerate(tbl.iterrows()):
-        ax.text(r.gap - 0.012 if r.gap < 0 else r.gap + 0.004, i,
+        ax.text(r.gap - 0.008 if r.gap < 0 else r.gap + 0.004, i,
                 f"p={r.p_value:.2g}", va="center",
                 ha="right" if r.gap < 0 else "left", fontsize=8)
     ax.set_xlabel("Entity_B score minus Entity_A score (1-5 scale)")
-    ax.set_title("Only two things are broken in Entity_B -- and they aren't the manager")
+    ax.set_title("Only two things are broken in Entity_B, and neither is the manager")
+    ax.annotate(f"Employee-level means. Entity_A n={len(a):,}, Entity_B n={len(b):,}. "
+                f"Welch t-test, coral where p<0.01 and gap>0.1pt.",
+                xy=(0, -0.16), xycoords="axes fraction", fontsize=7.5, color="#5A5A66")
     f1 = savefig(fig, "entity_b_dimension_diagnosis")
 
     slt = tbl[tbl.dim == "senior_leadership_trust"].iloc[0]
