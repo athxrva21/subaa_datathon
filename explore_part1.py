@@ -89,6 +89,10 @@ FIG_DIR.mkdir(parents=True, exist_ok=True)
 # Snapshot date = the day we "observe" the workforce (latest event in the data)
 SNAPSHOT = pd.Timestamp("2025-12-31")
 
+# Observation window is 1 Jan 2024 to 31 Dec 2025. Rates quoted on slides are
+# divided by this so they read per year rather than per two years.
+WINDOW_YEARS = 2.0
+
 # ----------------------------------------------------------------------------
 # Accenture-flavoured plotting style (their signature purple)
 # ----------------------------------------------------------------------------
@@ -178,6 +182,14 @@ def load_data():
 
     # -- Build the master analysis frame ----------------------------------
     emp["departed"] = (emp.status == "departed").astype(int)
+
+    # Voluntary exits and active headcount, for rates we quote on slides.
+    # An involuntary exit is a decision the company made rather than a loss it
+    # suffered, and a rate divided by a roster that still contains leavers
+    # understates it. See A6 and A14.
+    emp["vol_exit"] = emp.employee_id.isin(
+        set(att[att.exit_type == "voluntary"].employee_id)).astype(int)
+    emp["is_active"] = (emp.status == "active").astype(int)
     # robust tenure: hire -> (exit if departed else snapshot)
     end = emp.exit_date.where(emp.departed == 1, SNAPSHOT)
     emp["duration_months"] = months_between(emp.hire_date, pd.to_datetime(end)).clip(lower=0)
@@ -287,29 +299,41 @@ def attrition_anatomy(emp, att):
 def integration_debt(emp):
     section("SECTION 2 — POST-MERGER INTEGRATION DEBT (attrition by legacy entity)")
 
+    # Rate is annualised voluntary exits over active headcount, matching the
+    # convention used across the deck. An earlier version used all departures
+    # over the full roster, which reads about twice as high and is the same
+    # construction the deck criticises the Annual Report for. See A14.
     g = emp.groupby("legacy_entity_code").agg(
-        headcount=("employee_id", "size"),
-        attrition_rate=("departed", "mean"),
+        headcount=("is_active", "sum"),
+        vol_exits=("vol_exit", "sum"),
         eng_index=("eng_index", "mean"),
         compa_ratio=("compa_ratio", "mean"),
         hipo_rate=("hipo_flag", "mean"),
-    ).sort_values("attrition_rate", ascending=False)
-    g["attrition_rate"] *= 100
+    )
+    g["attrition_rate"] = g.vol_exits / g.headcount * 100 / WINDOW_YEARS
+    g = g.sort_values("attrition_rate", ascending=False)
     print(g.round(2).to_string())
 
-    base = emp.departed.mean() * 100
+    base = emp.vol_exit.sum() / emp.is_active.sum() * 100 / WINDOW_YEARS
     worst = g.index[0]
     lift = g.attrition_rate.iloc[0] / base
 
     fig, ax = plt.subplots(figsize=(8.5, 5))
     bars = ax.bar(g.index, g.attrition_rate,
                   color=[ACC_CORAL if v > base else ACC_PURPLE for v in g.attrition_rate])
+    ax.set_ylim(0, g.attrition_rate.max() * 1.18)
     ax.axhline(base, color=ACC_DEEP, ls="--", lw=1.5)
-    ax.text(len(g)-0.4, base+0.2, f"company avg {base:.1f}%", color=ACC_DEEP, ha="right")
+    # Label sits under the line on the left, where no bar top can reach it.
+    ax.text(-0.45, base - 0.22, f"company avg {base:.1f}%/yr",
+            color=ACC_DEEP, ha="left", va="top", fontsize=9.5, fontweight="bold")
     ax.set_title("Integration debt: attrition is concentrated in acquired entities")
-    ax.set_ylabel("Attrition rate (%)")
+    ax.set_ylabel("Voluntary attrition (% per year)")
     for b, v in zip(bars, g.attrition_rate):
-        ax.text(b.get_x()+b.get_width()/2, v+0.15, f"{v:.1f}%", ha="center", fontweight="bold")
+        ax.text(b.get_x()+b.get_width()/2, v + g.attrition_rate.max()*0.025,
+                f"{v:.1f}%", ha="center", fontweight="bold")
+    ax.annotate("Annualised voluntary exits over active headcount. "
+                f"Active n={emp.is_active.sum():,} of {len(emp):,} on roster.",
+                xy=(0, -0.13), xycoords="axes fraction", fontsize=7.5, color="#5A5A66")
     f1 = savefig(fig, "attrition_by_legacy_entity")
 
     # engagement vs attrition scatter by entity
