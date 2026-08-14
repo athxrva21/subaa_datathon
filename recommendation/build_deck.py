@@ -154,7 +154,11 @@ def bullets(slide, x, y, w, h, items, size=13.5, gap=11):
 
 
 def table(slide, x, y, w, rows, col_w, header_fill=DEEP, row_h=Inches(0.38),
-          size=12, head_size=11.5, emphasis_rows=()):
+          size=12, head_size=11.5, emphasis_rows=(), left_cols=()):
+    """
+    left_cols: column indices to left-align instead of centre. Prose columns
+    read badly centred, numeric ones read better centred.
+    """
     n_r, n_c = len(rows), len(rows[0])
     shape = slide.shapes.add_table(n_r, n_c, x, y, w, row_h * n_r)
     tbl = shape.table
@@ -172,7 +176,8 @@ def table(slide, x, y, w, rows, col_w, header_fill=DEEP, row_h=Inches(0.38),
             tf = c.text_frame
             tf.word_wrap = True
             p = tf.paragraphs[0]
-            p.alignment = PP_ALIGN.LEFT if j == 0 else PP_ALIGN.CENTER
+            p.alignment = (PP_ALIGN.LEFT if (j == 0 or j in left_cols)
+                           else PP_ALIGN.CENTER)
             r = p.add_run()
             r.text = str(val)
             r.font.name = FONT
@@ -627,9 +632,18 @@ def main():
         fn(prs)
 
     assert len(prs.slides) == 15, f"main deck must be 15 slides, got {len(prs.slides)}"
+    main_count = len(prs.slides)
+
+    # Imported here rather than at module scope because build_appendix imports
+    # the helpers above, so a top-level import would be circular.
+    from build_appendix import APPENDIX
+    for fn in APPENDIX:
+        fn(prs)
+
     out = OUT_DIR / "NovaCorp_deck.pptx"
     prs.save(out)
-    print(f"  {len(prs.slides)} slides -> {out}")
+    print(f"  {main_count} main slides + {len(prs.slides) - main_count} appendix "
+          f"= {len(prs.slides)} -> {out}")
     if TEAM_NAME.startswith("TEAM NAME"):
         print("  WARNING: team name is still the placeholder, set TEAM_NAME before export")
 
