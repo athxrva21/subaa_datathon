@@ -68,7 +68,7 @@ Team name · 15 August 2026
 
 # SLIDE 5 — The $42M, restated
 
-**Headline:** *Same $42M — different shape. The big bucket is bigger, the small one is smaller.*
+**Headline:** *It isn't $42M. On your own formulas it's $65M — and the shape is different too.*
 
 **Figure:** `E6_buckets_restated.png`
 
@@ -77,8 +77,11 @@ Team name · 15 August 2026
 | Regrettable attrition | $22–25M | **$45.1M** | flag excludes High Performers |
 | Disengagement productivity | $12–15M | **$17.8M** | 813 staff persistently below 2.5 |
 | Hiring inefficiency | $4–6M | **$2.3M** | agency premium is genuinely small |
+| **Total** | **$38–46M** | **$65.2M** | |
 
-**Say:** "Two of these move in your favour and one moves badly against you. The agency bucket you were worried about is the smallest thing here."
+**Say:** "Only one of these moves in your favour, and it's the smallest one. The agency bucket you were worried about is the least of your problems. The two that moved against you are the two that are hardest to see, which is not a coincidence — both were sized using a definition that excluded the expensive cases."
+
+*Same constants Finance published, same replacement-cost formula. The gap is definitional, not methodological.*
 
 *⚠️ Do **not** claim "91% of early exits are acquisition-sourced" or "agency is one of our best sources" — both were artifacts. See `EARLY_TENURE_CORRECTION.md`.*
 
@@ -153,7 +156,7 @@ Team name · 15 August 2026
 Include High Performer alongside Outstanding; separate the flag from the function that approved the exit; review quarterly. Restates your baseline immediately and fixes next year's $42M at source.
 
 **2 · Finish the Entity_B integration — as a trust problem, not a systems problem** — *inside the guided $40–50M FY26 integration budget*
-Migrate off BambooHR. Stabilise the Senior Manager layer first (Entity_B loses L3s at **18.0% vs Entity_A's 6.7%**) — there is otherwise nobody credible left to communicate the integration. Then senior-leadership visibility and honest communication about what the merger means for people personally. **Not** manager training.
+Migrate off BambooHR. Stabilise the Senior Manager layer first (Entity_B loses L3s at **9.8%/yr vs Entity_A's 2.9%**, a 3.4× gap) — there is otherwise nobody credible left to communicate the integration. Then senior-leadership visibility and honest communication about what the merger means for people personally. **Not** manager training.
 
 **3 · Measure acquired cohorts from day one, at cohort level** — *~$0*
 Baseline every acquired group against company norms at their first survey. Track response rate as a health metric in its own right. Fix the 307 who were never surveyed.

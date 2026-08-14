@@ -2,7 +2,16 @@
 
 *Every comparison in this deck, the test behind it, and the result. Tests run with `scipy.stats`. Where a comparison uses survey data, each employee's scores are averaged across waves **before** the comparison, so no person is counted more than once (pseudo-replication avoided). Conventional threshold: p < 0.05.*
 
-*Tests 1 and 2 were restated on 14 Aug. They previously ran on total exits including involuntary over the full roster of 13,403, which is the construction we criticise on slide 14. They now run on annualised voluntary exits over active headcount, matching the convention A6 commits us to. The Entity_B to Entity_A ratio moves from 2.0× to 1.9× and p moves from 2×10⁻¹³ to 8×10⁻⁹, so the conclusion is unchanged. Reproduce with `reconcile_deck_numbers.py`. See A14.*
+*Every attrition rate in this register was restated on 14 Aug. Tests 1, 2, 10 and 11 previously ran on total exits including involuntary over the full roster of 13,403, which is the construction we criticise on slide 14. They now run on annualised voluntary exits over active headcount, matching the convention A6 commits us to. Every conclusion is unchanged and two get stronger:*
+
+| Test | As published | Restated | Effect |
+|---|---|---|---|
+| 1 | 10.3 / 7.5 / 15.0 / 9.3 %, p = 1.9×10⁻¹³ | 4.5 / 3.6 / 7.0 / 4.6 %/yr, p = 6.7×10⁻⁹ | ratio 2.0× → 1.9× |
+| 2 | 15.0 vs 7.5 %, p = 2×10⁻¹³ | 7.0 vs 3.6 %/yr, p = 8.0×10⁻⁹ | unchanged |
+| 10 | 18.0 vs 6.7 %, p = 0.0050 | 9.8 vs 2.9 %/yr, p = 0.0047 | ratio 2.7× → **3.4×** |
+| 11 | 15.0 vs 10.0 %, p = 9.7×10⁻⁸ | 7.3 vs 4.5 %/yr, p = 1.2×10⁻⁷ | lift 1.50× → **1.64×** |
+
+*Tests 8, 9, 12, 13 and 15 are not attrition rates, so the roster is the correct population for each and they are unchanged. Test 14 already used in-window hires. Reproduce with `reconcile_deck_numbers.py`. See A14.*
 
 ---
 
@@ -19,8 +28,8 @@
 | 7 | Psychological safety is **not** different | Welch's t | 3.351 vs 3.354 | 0.91 — **null** | 1,938 / 1,697 |
 | 8 | Entity_B response rate is lower | One-way ANOVA | 83.6 / 83.8 / **62.6** / 68.6 % | **7.0×10⁻³⁰⁴** | 13,096 |
 | 9 | Entity_B is paid *above* NovaCorp-Origin | One-way ANOVA | 0.937 / 0.959 / **0.961** / 0.962 | **2.2×10⁻⁷¹** | 13,403 |
-| 10 | Entity_B loses Senior Managers (L3) at ~3× | Chi-square | 6.7% vs **18.0%** | **0.0050** | 150 / 150 |
-| 11 | HIPO staff leave at 1.5× | Chi-square | 15.0% vs 10.0% | **9.7×10⁻⁸** | 13,403 |
+| 10 | Entity_B loses Senior Managers (L3) at ~3× | Chi-square | 2.9% vs **9.8%**/yr | **0.0047** | 140 / 123 active |
+| 11 | HIPO staff leave at 1.6× | Chi-square | 7.3% vs 4.5%/yr | **1.2×10⁻⁷** | 12,003 |
 | 12 | Attrition is **not** concentrated under bad managers | Chi-square goodness-of-fit vs team size | worst 10% hold 18.4% of exits | **0.9957 — null** | 1,196 managers |
 | 13 | HR's regrettable flag ≠ a value-based definition | Chi-square | 97 of 312 overlap | **<10⁻⁶** | 1,400 |
 | 14 | Entity_B new joiners leave early more often | Two-proportion z | 10.2% vs 6.4% | **0.012** (z = 2.50) | 1,884 / 455 |
