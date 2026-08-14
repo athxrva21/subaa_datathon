@@ -17,7 +17,7 @@ and it is quietly costing NovaCorp a fortune. Here is the chain, step by step:
    manager, their team, their sense of safety -- is completely fine.
 4. **They went quiet.** Entity_B's survey response rate fell to 62.6%, twenty-one points below
    Entity_A. People who have stopped trusting leadership stop answering leadership's survey.
-5. **Then they left.** Entity_B's attrition is 15.0%, double Entity_A's 7.5%.
+5. **Then they left.** Entity_B's voluntary attrition is 7.0% a year, against Entity_A's 3.6%.
 6. **And none of it showed up on the dashboard.** The overall engagement score averages all eight
    survey questions together, so two collapsed scores got diluted by six healthy ones. Entity_B
    looks almost normal on the one number HR actually watches.
@@ -135,7 +135,7 @@ better than NovaCorp's own people, and are leaving anyway.
 ### 7. Entity_B's attrition gap is not random noise -- it is statistically real and large
 **In plain English.** 'Legacy entity' records which company an employee originally came from: NovaCorp-Origin (never acquired), or Entity_A / Entity_B / Entity_C (each acquired at a different time -- Entity_A in FY2022, Entity_B in FY2023, Entity_C in late FY2024). We tested, formally, whether the attrition-rate differences between entities could just be random chance, using a chi-square test across all four groups, then pairwise tests comparing Entity_B specifically against each of the others.
 
-**What the data shows.** Overall: 10.3% (NovaCorp-Origin), 7.5% (Entity_A), 15.0% (Entity_B), 9.3% (Entity_C). The difference across all four groups is statistically real (p=1.9e-13, far below 0.05). Entity_B vs. Entity_A specifically: p=2e-13 -- essentially impossible to be chance given the sample sizes involved (1,950 and 1,884 people respectively).
+**What the data shows.** Overall: 4.5% (NovaCorp-Origin), 3.6% (Entity_A), 7.0% (Entity_B), 4.6% (Entity_C). The difference across all four groups is statistically real (p=6.7e-09, far below 0.05). Entity_B vs. Entity_A specifically: p=8e-09 -- essentially impossible to be chance given the sample sizes involved (1,804 and 1,601 people respectively).
 
 **So what.** This is the single most defensible, statistically bulletproof finding in the whole analysis -- it's not a judgment call or a small-sample fluke, it's a large, clean, significant gap. It should anchor the recommendation, not be one bullet among many.
 
@@ -177,7 +177,7 @@ better than NovaCorp's own people, and are leaving anyway.
 ### 11. Entity_A is the proof that integration works -- it is now the safest cohort in the company
 **In plain English.** Entity_A was acquired in FY2022 and, per the Annual Report, has 'reached full operational integration.' If integration genuinely fixes the attrition problem, Entity_A should look at least as healthy as NovaCorp's original workforce by now -- not merely better than the other acquired entities.
 
-**What the data shows.** Entity_A's attrition rate is 7.5%, which is not just far below Entity_B's 15.0% -- it is below NovaCorp-Origin's own 10.3% and below the 10.4% company average. Entity_C, integrated only from late FY2024, sits at 9.3% -- and the Entity_A vs Entity_C difference is NOT statistically significant (p=0.106), meaning Entity_C currently looks like a normal, healthy cohort rather than a second Entity_B.
+**What the data shows.** Entity_A's attrition rate is 3.6%, which is not just far below Entity_B's 7.0% -- it is below NovaCorp-Origin's own 4.5% and below the 4.7% company average. Entity_C, integrated only from late FY2024, sits at 4.6% -- and the Entity_A vs Entity_C difference is NOT statistically significant (p=0.101), meaning Entity_C currently looks like a normal, healthy cohort rather than a second Entity_B.
 
 **So what.** This turns the recommendation from 'we hope integration will help' into 'we have already proven it works, using our own data.' Entity_A is a live before-and-after case study inside NovaCorp's own walls -- completing Entity_B's integration is not a bet, it is replicating a result the company has already achieved once. It also sets the success metric: Entity_B should be tracked against Entity_A's recovery, not against a generic benchmark.
 

@@ -60,6 +60,10 @@ def section(t):
 DIMS = ["manager_effectiveness","psychological_safety","recognition","career_development",
         "senior_leadership_trust","purpose_meaning","wellbeing","confidence_in_role_future"]
 
+# Observation window is 1 Jan 2024 to 31 Dec 2025. Entity attrition rates are
+# divided by this so they read per year rather than per two years.
+WINDOW_YEARS = 2.0
+
 def load():
     emp = pd.read_csv(DATA_DIR / "employees.csv", parse_dates=["hire_date", "exit_date"])
     att = pd.read_csv(DATA_DIR / "attrition_log.csv", parse_dates=["exit_date"])
@@ -458,33 +462,59 @@ def entity_deep_dive(emp, d, att, eng_global):
     order = ["NovaCorp-Origin", "Entity_A", "Entity_B", "Entity_C"]
 
     # -- 7a. Headline attrition rate, with pairwise significance ------------
-    g = emp.groupby("legacy_entity_code").agg(headcount=("employee_id", "size"),
-                                               exits=("departed", "sum")).reindex(order)
-    g["rate"] = g.exits / g.headcount * 100
+    # Rate is annualised VOLUNTARY exits over ACTIVE headcount. An earlier
+    # version counted all departures including involuntary over the full
+    # roster, which is the same construction the deck criticises the Annual
+    # Report for using on slide 14. Entity_B is worst either way, the ratio
+    # moves 2.0x to 1.9x and the finding is unchanged. See A14.
+    vol_ids = set(att[att.exit_type == "voluntary"].employee_id)
+    emp = emp.copy()
+    emp["vol_exit"] = emp.employee_id.isin(vol_ids).astype(int)
+    emp["is_active"] = (emp.status == "active").astype(int)
+
+    g = emp.groupby("legacy_entity_code").agg(headcount=("is_active", "sum"),
+                                               exits=("vol_exit", "sum")).reindex(order)
+    g["rate"] = g.exits / g.headcount * 100 / WINDOW_YEARS
     print(g)
 
-    ct = pd.crosstab(emp.legacy_entity_code, emp.departed)
-    chi2, p_overall, _, _ = stats.chi2_contingency(ct)
+    def _ct(frame):
+        """
+        Voluntary exits against active headcount, for a chi-square.
+        Built explicitly rather than by crosstab so the test population matches
+        the rate we report. A crosstab on vol_exit would fold the involuntary
+        leavers in as non-events, which gives a different denominator to the
+        rate printed above it.
+        """
+        return (frame.groupby("legacy_entity_code")[["vol_exit", "is_active"]]
+                     .sum().loc[lambda d: d.sum(axis=1) > 0])
+
+    chi2, p_overall, _, _ = stats.chi2_contingency(_ct(emp))
     print(f"  overall (are entities different at all?) p={p_overall:.4g}")
+
+    def _rate(frame):
+        return frame.vol_exit.sum() / frame.is_active.sum() * 100 / WINDOW_YEARS
 
     pairs = [("Entity_B", "Entity_A"), ("Entity_B", "Entity_C"),
              ("Entity_B", "NovaCorp-Origin"), ("Entity_A", "Entity_C")]
     pair_rows = []
     for a, b in pairs:
         ea, eb = emp[emp.legacy_entity_code == a], emp[emp.legacy_entity_code == b]
-        ct2 = pd.crosstab(pd.concat([ea, eb]).legacy_entity_code, pd.concat([ea, eb]).departed)
-        chi2p, pp, _, _ = stats.chi2_contingency(ct2)
-        pair_rows.append((a, b, ea.departed.mean()*100, eb.departed.mean()*100, pp))
-        print(f"  {a} ({ea.departed.mean()*100:.1f}%) vs {b} ({eb.departed.mean()*100:.1f}%): p={pp:.4g}")
+        chi2p, pp, _, _ = stats.chi2_contingency(_ct(pd.concat([ea, eb])))
+        pair_rows.append((a, b, _rate(ea), _rate(eb), pp))
+        print(f"  {a} ({_rate(ea):.1f}%/yr) vs {b} ({_rate(eb):.1f}%/yr): p={pp:.4g}")
 
     fig, ax = plt.subplots(figsize=(8, 5))
     bars = ax.bar(g.index, g.rate, color=[ACC_TEAL, ACC_GOLD, ACC_CORAL, ACC_PURPLE])
-    company_avg = emp.departed.mean() * 100
+    company_avg = emp.vol_exit.sum() / emp.is_active.sum() * 100 / WINDOW_YEARS
     ax.axhline(company_avg, color=ACC_DEEP, ls="--", lw=1.5)
-    ax.text(3.4, company_avg + 0.2, f"company avg {company_avg:.1f}%", color=ACC_DEEP, ha="right")
+    ax.text(3.4, company_avg + 0.08, f"company avg {company_avg:.1f}%/yr", color=ACC_DEEP, ha="right")
     for b, v in zip(bars, g.rate):
-        ax.text(b.get_x()+b.get_width()/2, v+0.15, f"{v:.1f}%", ha="center", fontweight="bold")
-    ax.set_ylabel("Attrition rate (%)"); ax.set_title(f"Attrition by legacy entity (overall difference p={p_overall:.2g})")
+        ax.text(b.get_x()+b.get_width()/2, v+0.06, f"{v:.1f}%", ha="center", fontweight="bold")
+    ax.set_ylabel("Voluntary attrition (% per year)")
+    ax.set_title(f"Attrition by legacy entity (overall difference p={p_overall:.2g})")
+    ax.annotate("Annualised voluntary exits over active headcount. "
+                f"Active n={emp.is_active.sum():,} of {len(emp):,} on roster.",
+                xy=(0, -0.14), xycoords="axes fraction", fontsize=7.5, color="#5A5A66")
     f1 = savefig(fig, "entity_attrition_significance")
 
     b_row = [r for r in pair_rows if r[0] == "Entity_B" and r[1] == "Entity_A"][0]
@@ -1080,7 +1110,7 @@ and it is quietly costing NovaCorp a fortune. Here is the chain, step by step:
    manager, their team, their sense of safety -- is completely fine.
 4. **They went quiet.** Entity_B's survey response rate fell to 62.6%, twenty-one points below
    Entity_A. People who have stopped trusting leadership stop answering leadership's survey.
-5. **Then they left.** Entity_B's attrition is 15.0%, double Entity_A's 7.5%.
+5. **Then they left.** Entity_B's voluntary attrition is 7.0% a year, against Entity_A's 3.6%.
 6. **And none of it showed up on the dashboard.** The overall engagement score averages all eight
    survey questions together, so two collapsed scores got diluted by six healthy ones. Entity_B
    looks almost normal on the one number HR actually watches.
