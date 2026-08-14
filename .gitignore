@@ -6,6 +6,10 @@ __pycache__/
 # macOS
 .DS_Store
 
+# Part 1 writes here, but figures/ is the canonical home for its charts.
+# Committing both would mean two copies drifting apart.
+part1_explore_outputs/
+
 # scratch working files
 *.tmp
 scratch/

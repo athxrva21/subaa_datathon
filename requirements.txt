@@ -1,0 +1,16 @@
+# Pinned to what the deck was built and verified against on 14 Aug 2026.
+# Every figure and dollar in the deck reproduces on these versions.
+#
+#   python3 -m venv .venv
+#   .venv/bin/pip install -r requirements.txt
+#
+# Then run the engines from their own directories, they use relative paths:
+#   cd ethics_finance   && ../.venv/bin/python cost_model.py
+#   cd recommendation   && ../.venv/bin/python cost_fix2.py
+#   cd explore_pt2      && ../.venv/bin/python explore_part2.py
+
+pandas==3.0.5
+numpy==2.5.2
+matplotlib==3.11.1
+seaborn==0.13.2
+scipy==1.18.0
