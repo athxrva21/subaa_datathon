@@ -694,26 +694,25 @@ def a15(prs):
 # ---------------------------------------------------------------- A16
 def a16(prs):
     s = blank(prs)
-    ap_chrome(s, "A16", "The first 90 days, and what to measure",
+    ap_chrome(s, "A16", "What to measure, and when you can actually read it",
               "Slide 9 says Entity_A sets the success measure. This is that measure, stated "
-              "so it can go in front of a board.",
-              "Baselines are the current figures from cost_model.py. Targets are Entity_A's "
-              "present position, not a generic benchmark, because Entity_A reached them inside "
-              "this company with this workforce.")
+              "so it can go in front of a board — and paced to the survey cadence NovaCorp "
+              "actually runs.",
+              "Baselines from cost_model.py. Targets are Entity_A's present position.")
     rows = [
-        ["Metric", "Entity_B today", "Target (Entity_A today)", "Review", "Why this one"],
-        ["Survey response rate", "62.6%", "83.8%", "Every wave",
+        ["Metric", "Entity_B today", "Target (Entity_A today)", "First readable", "Why this one"],
+        ["Survey response rate", "62.6%", "83.8%", "Next wave",
          "Moves first and costs nothing to measure. The leading indicator."],
-        ["Senior leadership trust", "3.051", "3.352", "Every wave",
+        ["Senior leadership trust", "3.051", "3.352", "Next wave",
          "One of the two dimensions that actually collapsed."],
-        ["Purpose & meaning", "3.058", "3.358", "Every wave",
+        ["Purpose & meaning", "3.058", "3.358", "Next wave",
          "The other one."],
-        ["Senior Manager (L3) attrition", "9.8%/yr", "2.9%/yr", "Quarterly",
+        ["Employees never surveyed", "152 on B and C systems", "0", "Next wave",
+         "You cannot manage a cohort you are not asking. Fixable before the wave issues."],
+        ["Senior Manager (L3) attrition", "9.8%/yr", "2.9%/yr", "2 quarters",
          "The layer that has to carry the integration message."],
-        ["Voluntary attrition", "7.0%/yr", "3.6%/yr", "Quarterly",
+        ["Voluntary attrition", "7.0%/yr", "3.6%/yr", "3–4 quarters",
          "The outcome. Moves last, so do not judge the programme on it early."],
-        ["Employees never surveyed", "152 on B and C systems", "0", "Every wave",
-         "You cannot manage a cohort you are not asking."],
     ]
     table(s, MARGIN, Inches(1.95), Inches(12.1), rows,
           [Inches(2.85), Inches(2.0), Inches(2.3), Inches(1.35), Inches(3.6)],
@@ -723,25 +722,28 @@ def a16(prs):
     # above and the footnote below.
     x = MARGIN
     for label, body, accent in [
-        ("BY DAY 30", "Regrettable flag redefined to include High Performer, and separated "
-                      "from the function that approves exits. Baseline restated. Costs about "
-                      "$0 and needs no programme.", PURPLE),
-        ("BY DAY 60", "Entity_B migration off BambooHR scheduled with a date. Senior Manager "
-                      "retention conversations complete. All 152 unsurveyed staff issued the "
-                      "next wave.", CORAL),
-        ("BY DAY 90", "First post-intervention wave read against Entity_A's trajectory, not "
-                      "against Entity_B's own past. Response rate is the number to watch; "
-                      "attrition will not have moved yet.", TEAL),
+        ("BEFORE THE NEXT WAVE", "Redefine the regrettable flag, separate it from the function "
+                                 "that approves exits, restate the baseline, and add the 152 "
+                                 "unsurveyed staff to the issue list. All policy, all ~$0.",
+         PURPLE),
+        ("AT THE NEXT WAVE", "The first real read. Response rate and the two collapsed "
+                             "dimensions, against Entity_A's trajectory rather than Entity_B's "
+                             "own past. Attrition will not have moved.", CORAL),
+        ("THE WAVE AFTER", "Confirm direction rather than declare success. Two consecutive "
+                           "wave-on-wave improvements in response rate is the earliest "
+                           "defensible signal.", TEAL),
     ]:
-        rect(s, x, Inches(5.35), Inches(3.87), Inches(0.05), fill=accent)
-        tf = textbox(s, x, Inches(5.54), Inches(3.87), Inches(0.28))
+        rect(s, x, Inches(5.30), Inches(3.87), Inches(0.05), fill=accent)
+        tf = textbox(s, x, Inches(5.49), Inches(3.87), Inches(0.28))
         para(tf, label, 10.5, accent, bold=True, first=True, space_after=8)
-        para(tf, body, 11, INK, space_after=0, line_spacing=1.18)
+        para(tf, body, 10.5, INK, space_after=0, line_spacing=1.18)
         x += Inches(4.11)
 
-    callout(s, MARGIN, Inches(6.50), Inches(12.0), Inches(0.38),
-            "Judge the programme on response rate and trust at 90 days. Attrition is a lagging "
-            "measure and will not have moved.", accent=GOLD, size=10)
+    callout(s, MARGIN, Inches(6.52), Inches(12.0), Inches(0.44),
+            "Anchored to waves, not days: NovaCorp's ran 122, 92, 123 and 181 days apart, mean "
+            "4.2 months and widening. A 90-day plan would promise a reading the cadence cannot "
+            "deliver — and a leading indicator read twice a year is not a leading indicator.",
+            accent=GOLD, size=10)
 
 
 # ---------------------------------------------------------------- A17
