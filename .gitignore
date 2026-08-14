@@ -1,0 +1,11 @@
+# local python env, do not commit
+.venv/
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# scratch working files
+*.tmp
+scratch/
