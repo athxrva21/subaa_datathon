@@ -2,7 +2,9 @@
 
 *Every figure quoted in the deck traced back to the script that produces it. Reproduce with `reconcile_deck_numbers.py`, `../ethics_finance/cost_model.py` and `cost_fix2.py`.*
 
-The build rule was that every dollar comes from `cost_model.py`, except the corrected early-tenure figure which comes from `cost_fix2.py`. This page is the audit of that rule. Three items did not reconcile and are flagged at the bottom rather than rewritten, so the copy stays traceable.
+The build rule was that every dollar comes from `cost_model.py`, except the corrected early-tenure figure which comes from `cost_fix2.py`. This page is the audit of that rule.
+
+Three items did not reconcile on the first pass. **All three were fixed on 14 Aug** and the fixes are recorded in §3 below. `cost_model.py` is now the single engine for every dollar and every rate on the face of the deck, including the corrected early-tenure lever, so the exception for `cost_fix2.py` is no longer needed. `cost_fix2.py` is retained as the independent cross-check that produced the correction.
 
 ---
 
@@ -40,9 +42,11 @@ The build rule was that every dollar comes from `cost_model.py`, except the corr
 
 ---
 
-## 3. Flags
+## 3. Flags, and what was done about them
 
-### 🔴 A14-1 — Slides 6 and 9 use the denominator slide 14 criticises
+All three are closed. Each entry states what was wrong, what changed, and where to reproduce it.
+
+### ✅ A14-1 — Slides 6 and 9 used the denominator slide 14 criticises
 
 **Material. Affects slides 6 and 9, and A8 tests 1 and 2.**
 
@@ -69,11 +73,20 @@ Bold column is what the deck quotes. Last column is what A6 says we adopted.
 | Chi-square, four groups | p = 1.9×10⁻¹³ | p = 6.7×10⁻⁹ |
 | Entity_B vs Entity_A pairwise | p = 2.0×10⁻¹³ | p = 8.0×10⁻⁹ |
 
-**Recommended fix, for whoever owns the copy:** restate slide 6 to **7.0% vs 3.6%** annualised voluntary on active, keep the 1.9× framing, and footnote the denominator. This costs the argument nothing and removes a contradiction a judge can find by reading two of our own slides against each other. A8 tests 1 and 2 need the same treatment.
+**Applied.** Slide 6 now reads **7.0% vs 3.6%** annualised voluntary on active, keeps the 1.9× framing, and carries the denominator in a footnote. Changed in the same pass:
 
-Not applied here, per the instruction to flag rather than rewrite.
+| File | Change |
+|---|---|
+| `DECK_STORYBOARD.md` slide 6 | rates restated, denominator footnote added |
+| `DECK_STORYBOARD.md` slide 9 | headline restated to 3.6% below 4.5%, Entity_C to 4.6% |
+| `DECK_STORYBOARD.md` cheat-sheet + Q&A | 7.0% vs 3.6%, p = 8×10⁻⁹, Entity_B sized as 1,601 |
+| `APPENDIX_A8` tests 1 and 2 | restated, with a dated note on why |
+| `APPENDIX_A13` | Entity_A precedent restated to 3.6%/yr |
+| `ethics_finance/SLIDES.md` | Entity_B worst rate restated to 7.0%/yr |
+| `findings.md` | Part 1 spread restated to 3.6–7.0%, note added |
+| `cost_model.py` | new `entity_rates()` section prints both conventions side by side |
 
-### 🔴 A14-2 — `cost_model.py` still emits the pre-correction numbers
+### ✅ A14-2 — `cost_model.py` emitted the pre-correction numbers
 
 **Material. Affects the reproducibility claim in A11.**
 
@@ -85,9 +98,28 @@ Not applied here, per the instruction to flag rather than rewrite.
 
 So the stated rule cannot be satisfied as written for the early-tenure line. The correction lives only in `cost_fix2.py`, and the engine of record still contradicts it. Anyone who reruns the named source of truth, including a judge who asks us to, gets the superseded answer along with two claims we have publicly retracted.
 
-**Options:** either patch `cost_model.py` section 3 to call the in-window method and have it print the retraction, or state plainly in A11 that section 3 of `cost_model.py` is superseded by `cost_fix2.py`. The second is a ten-minute fix and is probably right given the deadline.
+**Applied.** `cost_model.py` section 3 now measures early attrition on in-window hires only, and section 5 computes the early-tenure lever as excess over the NovaCorp-Origin new-joiner baseline. It reproduces `cost_fix2.py` exactly:
 
-### 🟡 A14-3 — Three different Entity_B headcounts on adjacent slides
+```
+Early-tenure / acquisition onboarding    $7.9M    $1.6M    $3.2M
+  of which Entity_B                      $6.2M    $1.2M    $2.5M
+```
+
+Section 3 also now prints both retractions explicitly, so anyone rerunning the engine is told which claims are dead rather than being handed them:
+
+```
+RETRACTED, do not quote either of these:
+   - '91% of early exits are acquisition-sourced' was a composition
+     statistic driven by observation availability.
+   - 'agency hires are one of our best sources' reversed once the
+     denominator was corrected.
+```
+
+Moksh's `SLIDES.md` slide D and slide E were updated to match, with both retracted claims removed from the body, the Q&A answer and the cheat-sheet.
+
+One residual difference, stated so it does not read as a fresh contradiction: `cost_model.py` counts **voluntary** early exits, matching A6's convention and the $7.9M lever. A7's hire-source table counts **all** early exits and so reads about 2pt higher per source (acquisition 11.6% against 9.6%). Same ordering, same conclusion, different numerator. A7's own cohort table is voluntary-only, so the inconsistency is internal to A7 and worth a one-line fix if anyone has time.
+
+### ✅ A14-3 — Three different Entity_B headcounts on adjacent slides
 
 **Minor, but it is the kind of thing that gets picked up in Q&A.**
 
@@ -99,7 +131,7 @@ So the stated rule cannot be satisfied as written for the early-tenure line. The
 
 All three are correct for their own purpose. Slide 6 says "$8.4M concentrated in 1,884 people you already know how to fix", which reads as a headcount you could act on, but 283 of those 1,884 have already left. The actionable population is 1,601.
 
-**Recommended fix:** slide 6 reads "1,601 people still there". Footnote the others where they appear.
+**Applied.** Slide 6 and the Q&A prep now say **1,601**, the population that can actually be acted on. The slide 7 chart carries its own responder n in the footnote. Where 1,884 remains correct, as in A7's in-window comparison, it is left alone.
 
 ---
 
