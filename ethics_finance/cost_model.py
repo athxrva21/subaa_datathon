@@ -30,6 +30,10 @@ WINDOW_YEARS = 2.0
 
 HIGH_VALUE = ["Outstanding", "High Performer"]
 
+# Anyone hired on or after this date is observed from tenure 0, so early-tenure
+# comparisons restricted to this group carry no left-truncation bias.
+WINDOW_START = pd.Timestamp("2024-01-01")
+
 emp = pd.read_csv("../employees.csv", parse_dates=["hire_date", "exit_date"])
 att = pd.read_csv("../attrition_log.csv", parse_dates=["exit_date"])
 eng = pd.read_csv("../engagement.csv", parse_dates=["survey_date"])
@@ -145,22 +149,36 @@ def hiring_bucket():
     print(f"  agency hires since 2024: {len(ag)} ({len(ag)/len(hires)*100:.0f}% of {len(hires)} hires)")
     print(f"  fee premium over the $5,500 direct benchmark: {m(premium)}/yr")
 
-    e = emp.copy()
-    e["early_exit"] = (e.status == "departed") & (e.tenure_months <= 12)
-    g = e.groupby("hire_source").agg(hires=("early_exit", "size"),
-                                     early_exit_rate=("early_exit", "mean"))
-    g["early_exit_rate"] = (g.early_exit_rate * 100).round(1)
+    # Early attrition has to be measured on in-window hires only. hire_date for
+    # acquired staff records when the record entered NovaCorp's system, not when
+    # the person started, so comparing against all hires of a source measures who
+    # we can observe rather than who leaves early. See APPENDIX_A7.
+    inw = emp[emp.hire_date >= WINDOW_START]
+    early_inw = exits[(exits.hire_date >= WINDOW_START) &
+                      (exits.exit_type == "voluntary") &
+                      (exits.tenure_months <= 12)]
+    g = pd.DataFrame({
+        "hires_in_window": inw.groupby("hire_source").size(),
+        "early_exits": early_inw.groupby("hire_source").size(),
+    }).fillna(0)
+    g["early_exit_rate"] = (100 * g.early_exits / g.hires_in_window).round(1)
     g = g.sort_values("early_exit_rate", ascending=False)
-    print(f"\n  Early attrition (left within 12 months) by hire source:")
+    print(f"\n  Voluntary early attrition (<=12 months), in-window hires only:")
     print(g.to_string())
-    early = exits[exits.tenure_months <= 12]
-    print(f"\n  {len(early)} exits inside 12 months = {m(replacement_cost(early))}/yr of wasted acquisition + ramp.")
-    acq_share = (early.hire_source == "acquisition").mean()
-    print(f"  {acq_share*100:.0f}% of them are ACQUISITION-sourced, not agency.")
-    print(f"\n  => The brief frames this bucket as an agency-hiring problem. The data")
-    print(f"     says agency hires have the second-LOWEST early-exit rate. The real")
-    print(f"     cost sits in acquisition-cohort onboarding, which is the same root")
-    print(f"     cause as bucket 1's Entity_B concentration. One fix, two buckets.")
+    print(f"\n  Voluntary only, matching the A6 convention and the $7.9M lever.")
+    print(f"  A7's hire-source table counts all exits and so reads about 2pt")
+    print(f"  higher per source. Same ordering, same conclusion.")
+
+    print(f"\n  => The brief frames this bucket as an agency-hiring problem. On a")
+    print(f"     like-for-like population the largest early-tenure problem is")
+    print(f"     acquisition-cohort onboarding, which is the same root cause as")
+    print(f"     bucket 1's Entity_B concentration. One fix, two buckets.")
+    print(f"     Agency is the second-worst source here, not the second-best.")
+    print(f"\n  RETRACTED, do not quote either of these:")
+    print(f"     - '91% of early exits are acquisition-sourced' was a composition")
+    print(f"       statistic driven by observation availability.")
+    print(f"     - 'agency hires are one of our best sources' reversed once the")
+    print(f"       denominator was corrected.")
 
 
 def sensitivity():
@@ -183,6 +201,80 @@ def sensitivity():
     print(f"  Defensible range we quote: ${base*0.75/1e6:.0f}-{base*1.25/1e6:.0f}M/yr")
 
 
+def entity_rates():
+    """
+    Attrition by legacy entity on the convention A6 commits us to, which is
+    annualised voluntary exits over active headcount. Earlier drafts quoted
+    total exits including involuntary over the full roster, which is the same
+    construction slide 14 criticises the Annual Report for. See A14.
+    """
+    print("\n" + "=" * 78)
+    print("6. ATTRITION BY LEGACY ENTITY — on our own stated convention")
+    print("=" * 78)
+    order = ["NovaCorp-Origin", "Entity_A", "Entity_B", "Entity_C"]
+    print(f"  {'entity':<20}{'vol exits':>10}{'active':>9}{'rate/yr':>10}{'roster':>9}{'old':>8}")
+    print("  " + "-" * 68)
+    out = {}
+    for c in order:
+        roster = (emp.legacy_entity_code == c).sum()
+        act = ((emp.status == "active") & (emp.legacy_entity_code == c)).sum()
+        vol = ((exits.exit_type == "voluntary") & (exits.legacy_entity_code == c)).sum()
+        allx = (exits.legacy_entity_code == c).sum()
+        r = 100 * vol / act / WINDOW_YEARS
+        out[c] = r
+        print(f"  {c:<20}{vol:>10,}{act:>9,}{r:>9.1f}%{roster:>9,}{100*allx/roster:>7.1f}%")
+    print("  " + "-" * 68)
+    print(f"  'old' is the superseded all-exits-on-roster figure the storyboard")
+    print(f"  first quoted. Entity_B to Entity_A ratio is {out['Entity_B']/out['Entity_A']:.1f}x restated")
+    print(f"  and 2.0x as published, so the finding is unchanged.")
+    return out
+
+
+def disengaged_pool():
+    """Annual productivity loss for the 'index < 2.5' definition we carry forward."""
+    dims = ["manager_effectiveness", "psychological_safety", "recognition",
+            "career_development", "senior_leadership_trust", "purpose_meaning",
+            "wellbeing", "confidence_in_role_future"]
+    resp = eng[eng.response_flag].copy()
+    resp["idx"] = resp[dims].mean(axis=1)
+    resp = resp.sort_values(["employee_id", "wave_number"])
+    agg = resp.groupby("employee_id").tail(2).groupby("employee_id").agg(idx=("idx", "mean"))
+    a2 = active.merge(agg, on="employee_id", how="left")
+    sub = a2[(a2.idx < 2.5).fillna(False)]
+    return sub.salary.sum() * (1 + SUPER_RATE) * DISENGAGE_LOSS, len(sub)
+
+
+def early_tenure_addressable():
+    """
+    Excess early attrition in the acquired cohorts, over and above the rate a
+    comparable NovaCorp-Origin new joiner shows. Only the excess is addressable.
+    The old version of this counted every early exit, including the baseline
+    churn every employer carries, which is how it reached $29.6M. See A7.
+    """
+    inw = emp[emp.hire_date >= WINDOW_START]
+    vol = exits[(exits.exit_type == "voluntary") &
+                (exits.hire_date >= WINDOW_START) &
+                (exits.tenure_months <= 12)]
+    rate = {}
+    for c in ["NovaCorp-Origin", "Entity_B", "Entity_C"]:
+        n = (inw.legacy_entity_code == c).sum()
+        k = (vol.legacy_entity_code == c).sum()
+        if n:
+            rate[c] = (k / n, n)
+    baseline = rate["NovaCorp-Origin"][0]
+
+    per_cohort, total = {}, 0.0
+    for c in ["Entity_B", "Entity_C"]:
+        r, n = rate[c]
+        excess = max(r - baseline, 0) * n
+        sal = vol[vol.legacy_entity_code == c].salary_at_exit.mean()
+        cost = (REPLACEMENT_MULT * BACKFILL_RATE * excess * sal
+                * (1 + SUPER_RATE) / WINDOW_YEARS)
+        per_cohort[c] = cost
+        total += cost
+    return total, per_cohort, baseline, rate
+
+
 def intervention_roi():
     print("\n" + "=" * 78)
     print("5. IF NOVACORP ACTS — what does each lever return?")
@@ -190,18 +282,23 @@ def intervention_roi():
     vol = exits[exits.exit_type == "voluntary"]
     highval = vol[vol.performance_band_at_exit.isin(HIGH_VALUE)]
     eb = highval[highval.legacy_entity_code == "Entity_B"]
-    early = vol[vol.tenure_months <= 12]
+    diseng, _ = disengaged_pool()
+    early_total, early_by_cohort, baseline, _ = early_tenure_addressable()
 
     print(f"  {'lever':<40}{'addressable':>13}{'@20% cut':>11}{'@40% cut':>11}")
     print("  " + "-" * 73)
-    for label, pool in [
-        ("Fix the regrettable definition (measure)", highval),
-        ("Entity_B integration + retention", eb),
-        ("Early-tenure / onboarding (<=12mo)", early),
+    for label, c in [
+        ("Fix the regrettable definition (measure)", replacement_cost(highval)),
+        ("Disengagement (index < 2.5)", diseng),
+        ("Early-tenure / acquisition onboarding", early_total),
+        ("  of which Entity_B", early_by_cohort.get("Entity_B", 0.0)),
+        ("Entity_B regrettable attrition", replacement_cost(eb)),
     ]:
-        c = replacement_cost(pool)
         print(f"  {label:<40}{m(c):>13}{m(c*0.20):>11}{m(c*0.40):>11}")
     print("  " + "-" * 73)
+    print(f"  Top three sum to {m(replacement_cost(highval) + diseng + early_total)}/yr addressable.")
+    print(f"  Early-tenure is excess over a {baseline*100:.1f}% NovaCorp-Origin new-joiner")
+    print(f"  baseline. Superseded figure was $29.6M, see APPENDIX_A7.")
     print("\n  The 20%/40% reduction rates are ASSUMPTIONS, not findings. They are")
     print("  the band typically claimed for targeted retention programmes. We show")
     print("  both so the CHRO can see the decision does not hinge on the optimistic one.")
@@ -219,6 +316,7 @@ if __name__ == "__main__":
     hiring_bucket()
     sensitivity()
     intervention_roi()
+    entity_rates()
     print("\n" + "=" * 78)
     print("All figures derived from the four supplied CSVs using only the constants")
     print("published in the case brief. No external benchmarks are used except where")

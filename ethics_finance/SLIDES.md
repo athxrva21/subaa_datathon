@@ -104,15 +104,22 @@ better problem to solve anyway — and it points at the same Entity_B/C fix as t
 | Hiring inefficiency | $4–6M | **$2.3M** | agency premium is small — and agency isn't the problem |
 
 **The hiring-bucket reversal is a strong Q&A moment.** The brief frames this bucket as agency
-hiring. Early-exit rate (left within 12 months) by source:
+hiring. Voluntary early-exit rate (left within 12 months), **in-window hires only** so every
+person is observed from tenure 0:
 
-| acquisition | agency | referral | graduate | direct |
-|---|---|---|---|---|
-| **7.0%** | 0.8% | 0.4% | 0.3% | 0.2% |
+| acquisition | agency | direct | referral |
+|---|---|---|---|
+| **9.6%** | 7.7% | 5.4% | 3.4% |
 
-**91% of early exits are acquisition-sourced.** Agency hires are the second-*best* performing source.
-Cutting agency spend would save ~$2.3M and fix nothing. The waste is acquisition-cohort onboarding —
-the same root cause as the Entity_B concentration in bucket 1. **One fix, two buckets.**
+**Acquisition-cohort onboarding is the largest early-tenure problem**, at 9.6% against 6.4% for a
+comparable NovaCorp-Origin new joiner. That is the same root cause as the Entity_B concentration in
+bucket 1. **One fix, two buckets.** Cutting agency spend saves ~$2.3M and does not touch it.
+
+> **Corrected 14 Aug.** This table previously ran against *all* hires of each source, most of whom
+> were hired years before the window opened. On that denominator agency looked like the second-*best*
+> source. On a like-for-like population it is the second-*worst*. Two claims are retracted and must
+> not be quoted: *"91% of early exits are acquisition-sourced"* and *"agency hires are one of our
+> best sources."* See A7 and A14.
 
 ---
 
@@ -121,15 +128,21 @@ the same root cause as the Entity_B concentration in bucket 1. **One fix, two bu
 | Lever | Addressable | @20% reduction | @40% reduction | Cost to act |
 |---|---|---|---|---|
 | Redefine `regrettable_flag` + quarterly review | $45.1M | $9.0M | $18.1M | **~$0 (policy)** |
-| Early-tenure / acquisition onboarding | $29.6M | $5.9M | $11.8M | ~$500–800/head |
+| Disengagement (813 staff below 2.5) | $17.8M | $3.6M | $7.1M | programme-dependent |
+| Early-tenure / acquisition onboarding | **$7.9M** | $1.6M | $3.2M | ~$500–800/head |
+| *of which Entity_B* | *$6.2M* | *$1.2M* | *$2.5M* | |
 | Entity_B integration + retention | $8.4M | $1.7M | $3.3M | inside the guided $40–50M FY26 integration budget |
+
+> **Corrected 14 Aug.** The early-tenure lever read $29.6M / $5.9M / $11.8M. That counted every
+> early exit as addressable, including the ~6.4% baseline churn any new joiner shows anywhere. Only
+> the excess over that baseline is addressable. See A7.
 
 **Say this before anyone asks:** "The 20% and 40% are **assumptions**, not findings — that's the band
 typically claimed for targeted retention programmes. We show both so you can see the decision doesn't
 depend on the optimistic one. The first lever is a definition change, so its return is effectively
 uncapped by budget."
 
-**Honest framing on Entity_B:** it has the worst *rate* (15.0%) but NovaCorp-Origin holds the most
+**Honest framing on Entity_B:** it has the worst *rate* (7.0%/yr) but NovaCorp-Origin holds the most
 *dollars* ($29.2M of the $45.1M) purely on headcount. Don't let the team claim Entity_B is where the
 money is — it's where the **leverage** is.
 
@@ -183,9 +196,9 @@ conversation you have a discrimination exposure that costs more than the attriti
 
 **"What do I do Monday?"**
 Three things, in order: (1) redefine regrettable to include High Performer, cost ~$0, restates your
-baseline immediately; (2) put a 90-day structured onboarding on acquisition-cohort hires, where 91%
-of early exits sit; (3) run the flight-risk diagnostic at team level only, with the fairness audit
-attached.
+baseline immediately; (2) put a 90-day structured onboarding on acquisition-cohort hires, who leave
+inside 12 months at 9.6% against a 6.4% baseline; (3) run the flight-risk diagnostic at team level
+only, with the fairness audit attached.
 
 ---
 
@@ -197,4 +210,4 @@ attached.
 | High performers never counted | **371** |
 | High Performers managed out, flagged regrettable | **0 of 168** |
 | Silence flag: false positives / precision | **901 / 23%** |
-| Early exits that are acquisition-sourced | **91%** |
+| Acquisition new joiners leaving inside 12 months | **9.6%** vs 6.4% baseline |
