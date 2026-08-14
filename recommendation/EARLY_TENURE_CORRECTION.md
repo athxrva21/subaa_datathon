@@ -50,14 +50,16 @@ At 20% reduction: **$1.6M/yr**. At 40%: **$3.2M/yr**.
 
 Slide D says agency hires are *"the second-best performing source"* and that cutting agency spend *"would save ~$2.3M and fix nothing."* That rested on the same denominator problem — it divided 25 agency early exits by all **3,243** agency hires, most hired years before the window. Only **274** agency hires are observed from tenure 0.
 
-Among comparable new hires:
+Among comparable new hires, counting **voluntary** exits only so this table matches the cohort table above and the $7.9M lever:
 
 | Source | n (in-window) | early exits | rate |
 |---|---|---|---|
-| acquisition | 2,898 | 332 | **11.5%** |
-| **agency** | 274 | 23 | **8.4%** |
+| acquisition | 2,898 | 277 | **9.6%** |
+| **agency** | 274 | 21 | **7.7%** |
 | direct | 93 | 5 | 5.4% |
-| referral | 88 | 4 | 4.5% |
+| referral | 88 | 3 | 3.4% |
+
+*Corrected 14 Aug. This table previously counted all exits including involuntary, giving 11.6 / 8.4 / 5.4 / 4.5, while the cohort table above it counted voluntary only. Same ordering and same conclusion either way, but the two tables now use one definition. Reproduces from `cost_model.py` section 3.*
 
 Agency is the second-**worst**, not second-best. The gap to direct hire is not significant (z = 0.74, n = 93 direct hires is too small to conclude much), so the safe wording is *"agency is not the largest early-tenure problem — acquisition onboarding is"*, rather than *"agency is one of our best sources."*
 

@@ -139,7 +139,7 @@ Team name · 15 August 2026
 
 - Entity_A (FY2022, fully integrated) is now the **safest cohort in the company** — better than NovaCorp-Origin itself.
 - Its survey response rate has recovered to **83.8%**, indistinguishable from NovaCorp-Origin.
-- Entity_C (late FY2024) is at 4.6% and statistically indistinguishable from Entity_A (p = 0.106) — it is **not** a second Entity_B yet.
+- Entity_C (late FY2024) is at 4.6% and statistically indistinguishable from Entity_A (p = 0.101) — it is **not** a second Entity_B yet.
 
 **Say:** "This turns the recommendation from 'we hope this helps' into 'you have already done this once, in this company, with this workforce.' And it sets your success measure: track Entity_B against Entity_A's recovery, not against a generic benchmark."
 

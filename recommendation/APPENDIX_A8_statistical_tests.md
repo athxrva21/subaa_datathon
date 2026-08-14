@@ -42,7 +42,7 @@ Reported so the record is complete, not because they carry the argument.
 | …L4 | Welch's t | 0.961 vs 0.964 | 0.90 — null | n = 7 leavers |
 | Push/pull mix differs by entity | Chi-square | 68 / 68 / 73 / 59 % | 0.061 | Borderline; directionally supportive only |
 | Purpose separates leavers from stayers *within* Entity_B | Welch's t | 2.929 vs 3.070 | 0.084 — null | **Load-bearing null:** rules out individual targeting on purpose scores |
-| Entity_A vs Entity_C attrition | Chi-square | 3.6% vs 4.6%/yr | 0.106 — null | Entity_C is not a second Entity_B |
+| Entity_A vs Entity_C attrition | Chi-square | 3.6% vs 4.6%/yr | 0.101 — null | Entity_C is not a second Entity_B |
 | Entity_C new joiners leave early more often | Two-proportion z | 8.4% vs 6.4% | 0.18 — null | Not significant; excluded from the headline |
 | Disengagement cutoff at 2.5 separates leavers | Chi-square | 7.4% vs 5.9% | 0.100 | Threshold is a judgement call — see A5 |
 | Agency vs direct early-exit rate | Two-proportion z | 8.4% vs 5.4% | 0.46 — null | n = 93 direct hires; no conclusion drawn |
