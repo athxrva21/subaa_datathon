@@ -2,14 +2,16 @@
 
 *Every comparison in this deck, the test behind it, and the result. Tests run with `scipy.stats`. Where a comparison uses survey data, each employee's scores are averaged across waves **before** the comparison, so no person is counted more than once (pseudo-replication avoided). Conventional threshold: p < 0.05.*
 
+*Tests 1 and 2 were restated on 14 Aug. They previously ran on total exits including involuntary over the full roster of 13,403, which is the construction we criticise on slide 14. They now run on annualised voluntary exits over active headcount, matching the convention A6 commits us to. The Entity_B to Entity_A ratio moves from 2.0× to 1.9× and p moves from 2×10⁻¹³ to 8×10⁻⁹, so the conclusion is unchanged. Reproduce with `reconcile_deck_numbers.py`. See A14.*
+
 ---
 
 ## Findings we rely on
 
 | # | Claim | Test | Result | p | n |
 |---|---|---|---|---|---|
-| 1 | Entity_B attrition differs from other cohorts | Chi-square, 4 groups | 10.3 / 7.5 / **15.0** / 9.3 % | **1.9×10⁻¹³** | 13,403 |
-| 2 | Entity_B vs Entity_A specifically | Chi-square, pairwise | 15.0% vs 7.5% | **2×10⁻¹³** | 1,884 / 1,950 |
+| 1 | Entity_B attrition differs from other cohorts | Chi-square, 4 groups | 4.5 / 3.6 / **7.0** / 4.6 %/yr | **6.7×10⁻⁹** | 12,003 |
+| 2 | Entity_B vs Entity_A specifically | Chi-square, pairwise | 7.0% vs 3.6%/yr | **8.0×10⁻⁹** | 1,601 / 1,804 |
 | 3 | Senior leadership trust collapsed in Entity_B | Welch's t | 3.352 → 3.051 (**−0.301**) | **1.5×10⁻²⁵** | 1,938 / 1,697 |
 | 4 | Purpose & meaning collapsed in Entity_B | Welch's t | 3.358 → 3.058 (**−0.300**) | **2.6×10⁻²⁵** | 1,938 / 1,697 |
 | 5 | …and holds among **active** staff only (not a leaver artifact) | Welch's t | same direction | **4.6×10⁻²⁵** | active only |
@@ -40,7 +42,7 @@ Reported so the record is complete, not because they carry the argument.
 | …L4 | Welch's t | 0.961 vs 0.964 | 0.90 — null | n = 7 leavers |
 | Push/pull mix differs by entity | Chi-square | 68 / 68 / 73 / 59 % | 0.061 | Borderline; directionally supportive only |
 | Purpose separates leavers from stayers *within* Entity_B | Welch's t | 2.929 vs 3.070 | 0.084 — null | **Load-bearing null:** rules out individual targeting on purpose scores |
-| Entity_A vs Entity_C attrition | Chi-square | 7.5% vs 9.3% | 0.106 — null | Entity_C is not a second Entity_B |
+| Entity_A vs Entity_C attrition | Chi-square | 3.6% vs 4.6%/yr | 0.106 — null | Entity_C is not a second Entity_B |
 | Entity_C new joiners leave early more often | Two-proportion z | 8.4% vs 6.4% | 0.18 — null | Not significant; excluded from the headline |
 | Disengagement cutoff at 2.5 separates leavers | Chi-square | 7.4% vs 5.9% | 0.100 | Threshold is a judgement call — see A5 |
 | Agency vs direct early-exit rate | Two-proportion z | 8.4% vs 5.4% | 0.46 — null | n = 93 direct hires; no conclusion drawn |

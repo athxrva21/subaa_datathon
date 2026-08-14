@@ -90,11 +90,13 @@ Team name · 15 August 2026
 
 **Figure:** `03_attrition_by_legacy_entity.png` (Pt 1) or Pt 2's entity chart
 
-- Attrition by origin: NovaCorp-Origin **10.3%** · Entity_A **7.5%** · **Entity_B 15.0%** · Entity_C 9.3%.
-- Entity_B vs Entity_A: **p = 2×10⁻¹³** on 1,884 and 1,950 people. This is the most statistically solid finding in the analysis.
+- Attrition by origin: NovaCorp-Origin **4.5%** · Entity_A **3.6%** · **Entity_B 7.0%** · Entity_C 4.6%.
+- Entity_B vs Entity_A: **p = 8×10⁻⁹** on 1,601 and 1,804 active staff. This is the most statistically solid finding in the analysis.
 - Entity_B was acquired in FY2023 and **still runs on BambooHR**, two years on. Entity_A was absorbed onto the core system and is now the healthiest cohort in the company.
 
-**Say:** "Entity_B has the worst rate. It is not where the most dollars sit — NovaCorp-Origin holds $29.2M of the $45.1M purely on headcount. Entity_B is where the **leverage** is: $8.4M concentrated in 1,884 people you already know how to fix."
+**Say:** "Entity_B has the worst rate. It is not where the most dollars sit — NovaCorp-Origin holds $29.2M of the $45.1M purely on headcount. Entity_B is where the **leverage** is: $8.4M concentrated in 1,601 people you already know how to fix."
+
+*Footnote on slide: annualised voluntary exits ÷ active headcount, the same convention used on every rate in this deck. An earlier draft quoted 10.3 / 7.5 / 15.0 / 9.3, which was total exits including involuntary over the full roster — the construction we criticise on slide 14. The ratio is 1.9× restated against 2.0× as first drafted, so the finding is unchanged. See A14.*
 
 ---
 
@@ -131,13 +133,13 @@ Team name · 15 August 2026
 
 # SLIDE 9 — You've already solved this once
 
-**Headline:** *Entity_A is at 7.5% — below NovaCorp's own 10.3%. Integration works; you've proved it.*
+**Headline:** *Entity_A is at 3.6% — below NovaCorp's own 4.5%. Integration works; you've proved it.*
 
 **Figure:** `17_survival_by_entity.png` or a simple entity-over-time panel
 
 - Entity_A (FY2022, fully integrated) is now the **safest cohort in the company** — better than NovaCorp-Origin itself.
 - Its survey response rate has recovered to **83.8%**, indistinguishable from NovaCorp-Origin.
-- Entity_C (late FY2024) is at 9.3% and statistically indistinguishable from Entity_A (p = 0.106) — it is **not** a second Entity_B yet.
+- Entity_C (late FY2024) is at 4.6% and statistically indistinguishable from Entity_A (p = 0.106) — it is **not** a second Entity_B yet.
 
 **Say:** "This turns the recommendation from 'we hope this helps' into 'you have already done this once, in this company, with this workforce.' And it sets your success measure: track Entity_B against Entity_A's recovery, not against a generic benchmark."
 
@@ -261,7 +263,7 @@ Baseline every acquired group against company norms at their first survey. Track
 | Counted vs real regrettable | **$14.3M → $45.1M** (range $34–56M) |
 | High performers never counted | **371** |
 | High Performers managed out, flagged regrettable | **0 of 168** |
-| Entity_B vs Entity_A attrition | **15.0% vs 7.5%**, p = 2×10⁻¹³ |
+| Entity_B vs Entity_A attrition | **7.0% vs 3.6%**/yr, p = 8×10⁻⁹ |
 | What collapsed in Entity_B | trust **−0.301**, purpose **−0.300**; managers **no difference** |
 | Entity_B pay | **0.961** vs NovaCorp-Origin **0.937** — paid *better* |
 | Silence flag | 901 flagged, **23% precision**, four-fifths ratio **0.15** on age |
@@ -284,7 +286,7 @@ Point estimate on Finance's own constants. Defensible range $34–56M, varying t
 **"Can't I just run the silence flag? It's free."**
 At team level, yes. As an individual score it fails the four-fifths rule on age by a factor of seven and is wrong 77% of the time.
 
-**"Entity_B is only 1,884 people. Why should I care?"**
+**"Entity_B is only 1,601 people. Why should I care?"**
 You shouldn't care about it for the dollars — NovaCorp-Origin holds $29.2M of the $45.1M on headcount alone. You should care because it's the one place where the cause is identified, the fix is proven, and the budget is already guided.
 
 **"Why didn't you look at Risk & Compliance?"** *(your Annual Report singles it out)*

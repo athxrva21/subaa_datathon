@@ -32,7 +32,7 @@ Three reasons, in order of weight:
 
 **Entity_B's mechanism is internal and therefore actionable.** Entity_B is paid *above* NovaCorp-Origin (0.961 vs 0.937) and leaves anyway; its managers and psychological safety measure fine; what collapsed is trust in senior leadership and sense of purpose, on arrival. Nothing about that requires market conditions to change.
 
-**Entity_B has a proven precedent inside the company.** Entity_A ran the same integration and now sits at 7.5% — below NovaCorp-Origin's own rate. There is no equivalent proof that a compensation response fixes FAR-driven regulatory attrition.
+**Entity_B has a proven precedent inside the company.** Entity_A ran the same integration and now sits at 3.6%/yr — below NovaCorp-Origin's own rate. There is no equivalent proof that a compensation response fixes FAR-driven regulatory attrition.
 
 ---
 
