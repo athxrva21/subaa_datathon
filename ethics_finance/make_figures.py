@@ -10,7 +10,7 @@ PURPLE, DEEP, TEAL, CORAL, GOLD, GREY = "#A100FF", "#460073", "#00B7C3", "#FF6B6
 plt.rcParams.update({
     "figure.dpi": 120, "savefig.dpi": 160, "savefig.bbox": "tight",
     "font.family": "DejaVu Sans", "font.size": 11,
-    "axes.titlesize": 14, "axes.titleweight": "bold", "axes.titlecolor": DEEP,
+    "axes.titlesize": 13, "axes.titleweight": "bold", "axes.titlecolor": DEEP,
     "axes.edgecolor": "#DDDDE3", "axes.labelcolor": "#33333A",
     "axes.grid": True, "grid.color": "#ECECF1", "axes.axisbelow": True,
     "legend.frameon": False, "figure.facecolor": "white",
@@ -40,7 +40,7 @@ ax.set_yticklabels(["What NovaCorp\ncounts today", "Finance's\nstated bucket",
 for y, v, n in zip(ypos, [a, 23.5, c], ["153 people", "assumption", "499 people"]):
     ax.text(v + 1.2, y, f"${v:.1f}M   ({n})", va="center", fontweight="bold", color=DEEP)
 ax.set_xlim(0, 60); ax.set_xlabel("Replacement cost, $M per year")
-ax.set_title("NovaCorp under-counts its most expensive problem by 3x")
+ax.set_title("Regrettable attrition: as counted, as Finance sized it, and as measured")
 ax.annotate("", xy=(c, 2.42), xytext=(a, 2.42), arrowprops=dict(arrowstyle="<->", color=CORAL, lw=2))
 ax.text((a + c) / 2, 2.55, f"${c-a:.0f}M invisible to the current metric",
         ha="center", color=CORAL, fontweight="bold")
@@ -65,7 +65,7 @@ for i in range(len(p)):
 ax.set_xticks(x); ax.set_xticklabels([t.replace(" ", "\n") for t in p.index])
 ax.set_ylabel("% of exits flagged 'regrettable' by HR")
 ax.set_ylim(-9, 96); ax.legend(loc="upper right", fontsize=10)
-ax.set_title("The flag is a synonym for 'Outstanding' — not a measure of value lost")
+ax.set_title("Share of exits flagged regrettable, by performance band and pathway")
 ax.annotate("Not one of the 168 High Performers\nmanaged out was counted as a loss",
             xy=(1 + w/2 + .02, 1.5), xytext=(1.62, 44), color=CORAL, fontweight="bold",
             fontsize=10.5, ha="left",
@@ -89,7 +89,7 @@ for i, v in enumerate(g.values):
 ax.axhline(g.max() * .8, ls="--", color=GREY, lw=1.4)
 ax.text(len(g) - .65, g.max() * .8 + .5, "four-fifths\nthreshold", ha="right", fontsize=9, color=GREY)
 ax.set_ylabel("% flagged as a flight risk"); ax.set_xlabel("Age band")
-ax.set_title("A 'who stopped answering' flag is an age proxy — 16.6% vs 1.4%")
+ax.set_title("Share flagged by the proposed silence flag, by age band")
 save(fig, "E3_adverse_impact_age.png")
 
 # 4 --------------------------------------------------- precision of the flag

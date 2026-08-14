@@ -340,7 +340,9 @@ def slide_06(prs):
         "Entity_B was acquired in FY2023 and **still runs on BambooHR**, two years "
         "on. Entity_A was absorbed onto the core system and is now the healthiest "
         "cohort in the company.",
-    ], size=13, gap=13)
+        "**It isn't department mix.** Controlling for department, role level, pay and "
+        "potential, Entity_B still leaves at **1.95×** Entity_A (appendix A15).",
+    ], size=13, gap=11)
     picture(s, FIG / "03_attrition_by_legacy_entity.png",
             Inches(5.35), Inches(1.95), Inches(7.35), Inches(4.60))
     callout(s, MARGIN, Inches(5.90), Inches(4.35), Inches(0.90),

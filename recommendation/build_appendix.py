@@ -640,5 +640,165 @@ def a14(prs):
             "and A7.", size=10)
 
 
+# ---------------------------------------------------------------- A15
+def a15(prs):
+    s = blank(prs)
+    ap_chrome(s, "A15", "Does the Entity_B finding survive controls?",
+              "The obvious challenge to slide 6 is that Entity_B might simply sit in "
+              "departments or levels that lose people anyway. We tested it. It does not.",
+              "Logistic model on voluntary exit, baseline Entity_A, n = 13,136 with 1,133 events. "
+              "Reproduce with robustness_check.py.")
+
+    rows = [
+        ["Model", "Entity_B vs Entity_A", "95% CI", "p"],
+        ["Controlling for department, role level, pay and high-potential status",
+         "1.95×", "1.55 – 2.44", "8.4×10⁻⁹"],
+        ["…and additionally for tenure", "1.92×", "1.53 – 2.41", "1.6×10⁻⁸"],
+    ]
+    table(s, MARGIN, Inches(1.92), Inches(12.1), rows,
+          [Inches(6.1), Inches(2.2), Inches(2.0), Inches(1.8)],
+          row_h=Inches(0.46), size=11.5, emphasis_rows=(1,), left_cols=())
+
+    bullets(s, MARGIN, Inches(3.55), Inches(5.9), Inches(2.9), [
+        "**The effect holds either way.** Slide 6 quotes a 1.9× rate ratio. The adjusted "
+        "odds ratio is 1.95, so the headline is not an artifact of what Entity_B does or "
+        "where it sits.",
+        "**Department explains very little.** Only one of six department terms reaches "
+        "p < 0.05, and every odds ratio sits between 0.77 and 1.00. Risk & Compliance is "
+        "exactly 1.00 once entity is in the model.",
+        "**High-potential status replicates independently.** OR 1.59 (p = 3.6×10⁻⁶) here, "
+        "against the 1.64× lift in A8 test 11 computed a different way.",
+    ], size=11.5, gap=12)
+
+    x = Inches(7.0)
+    rect(s, x, Inches(3.55), Inches(5.75), Inches(2.9), fill=RGBColor_lightbg())
+    tf = textbox(s, x + Inches(0.38), Inches(3.82), Inches(5.0), Inches(2.5))
+    para(tf, "WHY TENURE IS REPORTED SEPARATELY", 10, GREY, bold=True, first=True,
+         space_after=12)
+    para(tf, "tenure_months is the system-entry artifact from A6 §1.1, so for the acquired "
+             "cohorts it is close to a restatement of entity itself:", 11, INK,
+         space_after=9, line_spacing=1.16)
+    para(tf, "Entity_C 0–9 months  ·  Entity_B 0–20  ·  Entity_A 7–33  ·  "
+             "NovaCorp-Origin 0–462", 10.5, DEEP, bold=True, space_after=9)
+    para(tf, "Controlling for it is close to controlling for the thing being measured, so we "
+             "report both models rather than picking the flattering one. Baseline is Entity_A "
+             "because that is the comparison the deck makes. NovaCorp-Origin is the worst "
+             "choice of baseline here, since it is the cohort the artifact distorts most.",
+         11, INK, space_after=0, line_spacing=1.16)
+
+    callout(s, MARGIN, Inches(6.48), Inches(12.0), Inches(0.4),
+            "This does not establish cause. It rules out the most likely confounders, which is "
+            "a different and weaker claim, and the one we make.", accent=GOLD, size=10.5)
+
+
+# ---------------------------------------------------------------- A16
+def a16(prs):
+    s = blank(prs)
+    ap_chrome(s, "A16", "The first 90 days, and what to measure",
+              "Slide 9 says Entity_A sets the success measure. This is that measure, stated "
+              "so it can go in front of a board.",
+              "Baselines are the current figures from cost_model.py. Targets are Entity_A's "
+              "present position, not a generic benchmark, because Entity_A reached them inside "
+              "this company with this workforce.")
+    rows = [
+        ["Metric", "Entity_B today", "Target (Entity_A today)", "Review", "Why this one"],
+        ["Survey response rate", "62.6%", "83.8%", "Every wave",
+         "Moves first and costs nothing to measure. The leading indicator."],
+        ["Senior leadership trust", "3.051", "3.352", "Every wave",
+         "One of the two dimensions that actually collapsed."],
+        ["Purpose & meaning", "3.058", "3.358", "Every wave",
+         "The other one."],
+        ["Senior Manager (L3) attrition", "9.8%/yr", "2.9%/yr", "Quarterly",
+         "The layer that has to carry the integration message."],
+        ["Voluntary attrition", "7.0%/yr", "3.6%/yr", "Quarterly",
+         "The outcome. Moves last, so do not judge the programme on it early."],
+        ["Employees never surveyed", "152 on B and C systems", "0", "Every wave",
+         "You cannot manage a cohort you are not asking."],
+    ]
+    table(s, MARGIN, Inches(1.95), Inches(12.1), rows,
+          [Inches(2.85), Inches(2.0), Inches(2.3), Inches(1.35), Inches(3.6)],
+          row_h=Inches(0.44), size=10.5, head_size=10, left_cols=(4,))
+
+    # Three columns rather than stacked rows. Stacked, these ran into the table
+    # above and the footnote below.
+    x = MARGIN
+    for label, body, accent in [
+        ("BY DAY 30", "Regrettable flag redefined to include High Performer, and separated "
+                      "from the function that approves exits. Baseline restated. Costs about "
+                      "$0 and needs no programme.", PURPLE),
+        ("BY DAY 60", "Entity_B migration off BambooHR scheduled with a date. Senior Manager "
+                      "retention conversations complete. All 152 unsurveyed staff issued the "
+                      "next wave.", CORAL),
+        ("BY DAY 90", "First post-intervention wave read against Entity_A's trajectory, not "
+                      "against Entity_B's own past. Response rate is the number to watch; "
+                      "attrition will not have moved yet.", TEAL),
+    ]:
+        rect(s, x, Inches(5.35), Inches(3.87), Inches(0.05), fill=accent)
+        tf = textbox(s, x, Inches(5.54), Inches(3.87), Inches(0.28))
+        para(tf, label, 10.5, accent, bold=True, first=True, space_after=8)
+        para(tf, body, 11, INK, space_after=0, line_spacing=1.18)
+        x += Inches(4.11)
+
+    callout(s, MARGIN, Inches(6.50), Inches(12.0), Inches(0.38),
+            "Judge the programme on response rate and trust at 90 days. Attrition is a lagging "
+            "measure and will not have moved.", accent=GOLD, size=10)
+
+
+# ---------------------------------------------------------------- A17
+def a17(prs):
+    s = blank(prs)
+    ap_chrome(s, "A17", "Model card — cohort diagnostic",
+              "The accompanying dashboard is a model, so it gets a model card. Intended use, "
+              "prohibited use, and known limits, stated up front rather than discovered later.")
+
+    cols = [
+        ("INTENDED USE", TEAL, [
+            "Cohort-level diagnostic for HR and integration leads.",
+            "Identifying which parts of the organisation resemble Entity_B before its attrition "
+            "rose, so integration effort can be directed.",
+            "Tracking cohorts against the A16 measures over time.",
+        ]),
+        ("PROHIBITED USE", CORAL, [
+            "Any decision about an individual. The file contains no employee, manager or team "
+            "identifier, so this is enforced by construction rather than by policy.",
+            "Performance management, redundancy selection, or promotion input.",
+            "Publishing cohort scores to managers without the fairness context in A4.",
+        ]),
+        ("KNOWN LIMITS", GOLD, [
+            "Diagnostic, not predictive. It has no validated forward accuracy and none is claimed.",
+            "Engagement is observed only for responders, so every score is a lower bound on a "
+            "partially observed population.",
+            "Component weights (40/40/20) are a judgement, not a finding. They are shown "
+            "separately in the tool so the score can be audited.",
+            "Eight cohorts covering 44 people are suppressed below the response floor.",
+        ]),
+    ]
+    x = MARGIN
+    for title, accent, items in cols:
+        rect(s, x, Inches(1.78), Inches(3.87), Inches(0.05), fill=accent)
+        tf = textbox(s, x, Inches(1.98), Inches(3.87), Inches(0.3))
+        para(tf, title, 10.5, accent, bold=True, first=True, space_after=12)
+        for it in items:
+            para(tf, "•  " + it, 11, INK, space_after=10, line_spacing=1.18)
+        x += Inches(4.11)
+
+    rect(s, MARGIN, Inches(5.35), Inches(12.1), Inches(1.35), fill=RGBColor_lightbg())
+    tf = textbox(s, MARGIN + Inches(0.4), Inches(5.60), Inches(11.3), Inches(1.0))
+    para(tf, "Why there is no individual-level version", 12.5, DEEP, bold=True, first=True,
+         space_after=6)
+    para(tf, "We built and tested one. On the four-fifths rule it returns impact ratios of 0.08 "
+             "on age, 0.15 on role level and 0.08 on acquisition cohort, and its precision is "
+             "22.6% — 901 false positives against 263 true ones. Low response is concentrated in "
+             "the acquisition cohorts, so at individual level the flag would substantially be "
+             "measuring integration failure rather than intent. We did not ship it, and this "
+             "page exists so that decision travels with the tool.", 11, INK, space_after=0,
+         line_spacing=1.18)
+
+    callout(s, MARGIN, Inches(6.90), Inches(12.0), Inches(0.4),
+            "If a participation metric is ever used, staff should be told it exists. A survey "
+            "sold as confidential and quietly re-used as a risk score costs you the instrument.",
+            size=10)
+
+
 APPENDIX = [divider, a1, a2, a3, a4, a5, a6_issues, a6_clean, a7, a8_main,
-            a8_nulls, a9, a10, a11, a12, a13, a14]
+            a8_nulls, a9, a10, a11, a12, a13, a14, a15, a16, a17]

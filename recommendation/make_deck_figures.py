@@ -20,9 +20,9 @@ PURPLE, DEEP, TEAL, CORAL, GOLD, GREY = \
     "#A100FF", "#460073", "#00B7C3", "#FF6B6B", "#FFB300", "#5A5A66"
 
 plt.rcParams.update({
-    "figure.dpi": 120, "savefig.dpi": 170, "savefig.bbox": "tight",
+    "figure.dpi": 120, "savefig.dpi": 160, "savefig.bbox": "tight",
     "font.family": "DejaVu Sans", "font.size": 11,
-    "axes.titlesize": 12.5, "axes.titleweight": "bold", "axes.titlecolor": DEEP,
+    "axes.titlesize": 13, "axes.titleweight": "bold", "axes.titlecolor": DEEP,
     "axes.edgecolor": "#DDDDE3", "axes.labelcolor": "#33333A",
     "axes.grid": True, "grid.color": "#ECECF1", "axes.axisbelow": True,
     "legend.frameon": False, "figure.facecolor": "white",
@@ -101,8 +101,7 @@ def entity_recovery():
     panel(axes[1], resp_rate, "Survey response rate",
           "% of surveys issued", "NovaCorp-Origin", False)
 
-    fig.suptitle("Entity_A was integrated and recovered on both measures. "
-                 "Entity_B was not.",
+    fig.suptitle("Attrition and survey response, by legacy entity",
                  fontsize=13.5, fontweight="bold", color=DEEP, y=1.03)
     fig.text(0.5, -0.06,
              "Attrition is annualised voluntary exits over active headcount (n=12,003). "

@@ -107,9 +107,9 @@ SEQ          = [ACC_PURPLE, ACC_TEAL, ACC_CORAL, ACC_GOLD, ACC_MID, ACC_GREY]
 
 sns.set_theme(style="whitegrid")
 plt.rcParams.update({
-    "figure.dpi": 120, "savefig.dpi": 140, "savefig.bbox": "tight",
+    "figure.dpi": 120, "savefig.dpi": 160, "savefig.bbox": "tight",
     "font.family": "DejaVu Sans", "font.size": 11,
-    "axes.titlesize": 14, "axes.titleweight": "bold", "axes.edgecolor": "#DDDDE3",
+    "axes.titlesize": 13, "axes.titleweight": "bold", "axes.edgecolor": "#DDDDE3",
     "axes.titlecolor": ACC_DEEP, "axes.labelcolor": "#33333A",
     "axes.grid": True, "grid.color": "#ECECF1",
     "legend.frameon": False, "figure.facecolor": "white",
@@ -326,7 +326,7 @@ def integration_debt(emp):
     # Label sits under the line on the left, where no bar top can reach it.
     ax.text(-0.45, base - 0.22, f"company avg {base:.1f}%/yr",
             color=ACC_DEEP, ha="left", va="top", fontsize=9.5, fontweight="bold")
-    ax.set_title("Integration debt: attrition is concentrated in acquired entities")
+    ax.set_title("Annualised voluntary attrition by legacy entity")
     ax.set_ylabel("Voluntary attrition (% per year)")
     for b, v in zip(bars, g.attrition_rate):
         ax.text(b.get_x()+b.get_width()/2, v + g.attrition_rate.max()*0.025,

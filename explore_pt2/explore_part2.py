@@ -33,7 +33,7 @@ SEQ = [ACC_PURPLE, ACC_TEAL, ACC_CORAL, ACC_GOLD]
 
 sns.set_theme(style="whitegrid")
 plt.rcParams.update({
-    "figure.dpi": 120, "savefig.dpi": 140, "savefig.bbox": "tight",
+    "figure.dpi": 120, "savefig.dpi": 160, "savefig.bbox": "tight",
     "font.family": "DejaVu Sans", "font.size": 11,
     "axes.titlesize": 13, "axes.titleweight": "bold",
     "axes.titlecolor": ACC_DEEP, "axes.labelcolor": "#33333A",
@@ -843,7 +843,7 @@ def purpose_and_timing(emp, eng_global):
 
     # Legend sits outside the axes so it cannot cover the Entity_C point.
     axes[1].legend(fontsize=8.5, loc="center left", bbox_to_anchor=(1.02, 0.5))
-    fig.suptitle("Entity_B arrives already broken and never recovers on its own",
+    fig.suptitle("Purpose and trust by survey wave, by legacy entity",
                  fontsize=13.5, fontweight="bold", color=ACC_DEEP, y=1.02)
     fig.text(0.5, -0.04, "Responders only. Entity_B joins at wave 2 and Entity_C at wave 5, "
              "so neither has an earlier reading to decline from.",
@@ -979,7 +979,7 @@ def entity_dimension_diagnosis(emp, eng_global):
                 f"p={r.p_value:.2g}", va="center",
                 ha="right" if r.gap < 0 else "left", fontsize=8)
     ax.set_xlabel("Entity_B score minus Entity_A score (1-5 scale)")
-    ax.set_title("Only two things are broken in Entity_B, and neither is the manager")
+    ax.set_title("Entity_B minus Entity_A, all eight engagement dimensions")
     ax.annotate(f"Employee-level means. Entity_A n={len(a):,}, Entity_B n={len(b):,}. "
                 f"Welch t-test, coral where p<0.01 and gap>0.1pt.",
                 xy=(0, -0.16), xycoords="axes fraction", fontsize=7.5, color="#5A5A66")
