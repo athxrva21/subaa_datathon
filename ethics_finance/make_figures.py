@@ -126,19 +126,46 @@ ax.text(2.62, 1.02, "brief's\nconstants", color=CORAL, fontweight="bold", fontsi
 save(fig, "E5_sensitivity.png")
 
 # 6 -------------------------------------------------- the three buckets restated
-fig, ax = plt.subplots(figsize=(9.6, 4.4))
+# Values come from cost_model.py rather than being typed here, so this chart
+# cannot drift away from the engine the rest of the deck quotes.
+from cost_model import (replacement_cost, disengaged_pool, exits as cm_exits,
+                        HIGH_VALUE, AGENCY_FEE, DIRECT_HIRE_COST, WINDOW_YEARS,
+                        emp as cm_emp, WINDOW_START)
+
+_vol = cm_exits[cm_exits.exit_type == "voluntary"]
+_regrettable = replacement_cost(_vol[_vol.performance_band_at_exit.isin(HIGH_VALUE)]) / 1e6
+_diseng = disengaged_pool()[0] / 1e6
+_ag = cm_emp[(cm_emp.hire_date >= WINDOW_START) & (cm_emp.hire_source == "agency")]
+_hiring = ((_ag.salary * AGENCY_FEE - DIRECT_HIRE_COST).clip(lower=0).sum()
+           / WINDOW_YEARS / 1e6)
+
+fig, ax = plt.subplots(figsize=(10.2, 5.0))
 labels = ["Regrettable\nattrition", "Disengagement\nproductivity", "Hiring\ninefficiency"]
 brief_lo, brief_hi = np.array([22, 12, 4]), np.array([25, 15, 6])
-ours = np.array([45.1, 17.8, 2.3])
+ours = np.array([_regrettable, _diseng, _hiring])
 x = np.arange(3); w = .34
 ax.bar(x - w/2, brief_hi - brief_lo, w, bottom=brief_lo, color="#C9C9D2", label="Finance's estimate")
-ax.bar(x + w/2, ours, w, color=PURPLE, label="Restated on the data")
+ax.bar(x + w/2, ours, w, color=[CORAL if o > h else TEAL for o, h in zip(ours, brief_hi)],
+       label="Restated on the data")
 for i, v in enumerate(ours):
     ax.text(i + w/2, v + 1, f"${v:.1f}M", ha="center", fontweight="bold", color=DEEP)
 for i, (lo, hi) in enumerate(zip(brief_lo, brief_hi)):
     ax.text(i - w/2, hi + 1, f"${lo}-{hi}M", ha="center", fontsize=9, color=GREY)
+
 ax.set_xticks(x); ax.set_xticklabels(labels); ax.set_ylabel("$M per year")
-ax.set_ylim(0, 54); ax.legend(loc="upper right")
-ax.set_title("The $42M is mis-apportioned: the big bucket is bigger, the small one smaller")
+ax.set_ylim(0, 56)
+
+# Coral means the bucket got worse, teal means it got better. Spelling the
+# direction out stops the chart being read as a simple redistribution.
+from matplotlib.patches import Patch
+ax.legend(handles=[Patch(color="#C9C9D2", label="Finance's estimate"),
+                   Patch(color=CORAL, label="Restated, larger than Finance"),
+                   Patch(color=TEAL, label="Restated, smaller than Finance")],
+          loc="upper right", fontsize=9.5)
+ax.set_title("Two buckets are bigger than Finance thought, one is smaller")
+ax.annotate(f"Finance sized the three buckets at $38–46M a year, midpoint $42M. "
+            f"On the data they total ${ours.sum():.1f}M, about {ours.sum()/42:.1f}× that. "
+            f"All figures from cost_model.py.",
+            xy=(0, -0.20), xycoords="axes fraction", fontsize=8, color=GREY)
 save(fig, "E6_buckets_restated.png")
 print("\nDone -> figures_ethics/")
