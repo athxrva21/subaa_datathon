@@ -70,6 +70,14 @@ def load():
     eng = pd.read_csv(DATA_DIR / "engagement.csv", parse_dates=["survey_date"])
     emp["departed"] = (emp.status == "departed").astype(int)
 
+    # Voluntary exits and active headcount, for every rate we quote on a slide.
+    # An involuntary exit is a decision the company made rather than a loss it
+    # suffered, and a rate divided by a roster that still holds leavers reads
+    # about twice as high as it should. See A6 and A14.
+    emp["vol_exit"] = emp.employee_id.isin(
+        set(att[att.exit_type == "voluntary"].employee_id)).astype(int)
+    emp["is_active"] = (emp.status == "active").astype(int)
+
     er = eng[eng.response_flag == True].copy()
     er["idx"] = er[DIMS].mean(axis=1)
     resp_count = eng.groupby("employee_id").response_flag.sum()
@@ -423,16 +431,18 @@ def manager_concentration_check(emp, att):
 def hipo_attrition(emp):
     section("6 -- DO YOUR BEST PEOPLE LEAVE MORE?")
     ct = pd.crosstab(emp.hipo_flag, emp.departed)
-    chi2, p, _, _ = stats.chi2_contingency(ct)
-    rate = emp.groupby("hipo_flag").departed.mean() * 100
+    # Annualised voluntary over active, matching every other rate in the deck.
+    grp = emp.groupby("hipo_flag")[["vol_exit", "is_active"]].sum()
+    rate = grp.vol_exit / grp.is_active * 100 / WINDOW_YEARS
+    chi2, p, _, _ = stats.chi2_contingency(grp.values)
     lift = rate[True] / rate[False]
-    print(f"  HIPO {rate[True]:.1f}% vs non-HIPO {rate[False]:.1f}%, lift {lift:.2f}x, p={p:.6g}")
+    print(f"  HIPO {rate[True]:.1f}%/yr vs non-HIPO {rate[False]:.1f}%/yr, lift {lift:.2f}x, p={p:.6g}")
 
     fig, ax = plt.subplots(figsize=(6, 5))
     ax.bar(["Non-HIPO", "HIPO"], [rate[False], rate[True]], color=[ACC_GREY, ACC_PURPLE])
     for i, v in enumerate([rate[False], rate[True]]):
-        ax.text(i, v + 0.2, f"{v:.1f}%", ha="center", fontweight="bold")
-    ax.set_ylabel("Attrition rate (%)")
+        ax.text(i, v + 0.1, f"{v:.1f}%", ha="center", fontweight="bold")
+    ax.set_ylabel("Voluntary attrition (% per year)")
     ax.set_title(f"High-potential staff leave {lift:.1f}x more often")
     f1 = savefig(fig, "hipo_attrition")
 
@@ -467,11 +477,6 @@ def entity_deep_dive(emp, d, att, eng_global):
     # roster, which is the same construction the deck criticises the Annual
     # Report for using on slide 14. Entity_B is worst either way, the ratio
     # moves 2.0x to 1.9x and the finding is unchanged. See A14.
-    vol_ids = set(att[att.exit_type == "voluntary"].employee_id)
-    emp = emp.copy()
-    emp["vol_exit"] = emp.employee_id.isin(vol_ids).astype(int)
-    emp["is_active"] = (emp.status == "active").astype(int)
-
     g = emp.groupby("legacy_entity_code").agg(headcount=("is_active", "sum"),
                                                exits=("vol_exit", "sum")).reindex(order)
     g["rate"] = g.exits / g.headcount * 100 / WINDOW_YEARS
@@ -742,11 +747,14 @@ def leadership_churn(emp):
         b = emp[(emp.legacy_entity_code == "Entity_B") & (emp.role_level == lv)]
         if len(a) < 20 or len(b) < 20:
             continue
-        both = pd.concat([a, b])
-        ct = pd.crosstab(both.legacy_entity_code, both.status)
+        # Annualised voluntary over active, same convention as every other rate.
+        ct = [[a.vol_exit.sum(), a.is_active.sum()],
+              [b.vol_exit.sum(), b.is_active.sum()]]
         chi2, p, _, _ = stats.chi2_contingency(ct)
-        rows.append((lv, len(a), (a.status == "departed").mean()*100,
-                     len(b), (b.status == "departed").mean()*100, p))
+        rows.append((lv,
+                     a.is_active.sum(), a.vol_exit.sum()/a.is_active.sum()*100/WINDOW_YEARS,
+                     b.is_active.sum(), b.vol_exit.sum()/b.is_active.sum()*100/WINDOW_YEARS,
+                     p))
     tbl = pd.DataFrame(rows, columns=["level", "n_a", "rate_a", "n_b", "rate_b", "p_value"])
     print(tbl.round(4).to_string(index=False))
 
@@ -781,7 +789,7 @@ def leadership_churn(emp):
         f"At Level 3 (Senior Manager), Entity_A loses {l3.rate_a:.1f}% while Entity_B loses "
         f"{l3.rate_b:.1f}% -- roughly a 3x difference on matched sample sizes "
         f"(n={int(l3.n_a)} vs n={int(l3.n_b)}), and statistically significant (p={l3.p_value:.4f}). "
-        f"Across all of Level 3 and above, Entity_B runs 14.8% against Entity_A's 6.2%. Notably, at "
+        f"Across all of Level 3 and above, Entity_B runs 7.3%/yr against Entity_A's 2.8%. Notably, at "
         f"Level 5 and above no acquired-entity leaders departed at all in the window -- so this is "
         f"specifically the Senior Manager tier, the leadership layer closest to frontline staff, "
         f"rather than the executive tier.",
@@ -1103,7 +1111,7 @@ and it is quietly costing NovaCorp a fortune. Here is the chain, step by step:
 
 1. **Entity_B's integration was never finished.** It still runs on its own separate HR system,
    two years after being acquired.
-2. **Its Senior Managers started quitting.** Nearly 1 in 5 of them left (18%), against 6.7% at
+2. **Its Senior Managers started quitting.** They leave at 9.8% a year, against 2.9% at
    Entity_A -- about three times the rate. These are the leaders staff actually see day to day.
 3. **Staff stopped trusting NovaCorp's leadership, and lost their sense of what the company is
    for.** These two things collapsed by about 0.30 points each. Everything else -- their direct

@@ -10,7 +10,7 @@ and it is quietly costing NovaCorp a fortune. Here is the chain, step by step:
 
 1. **Entity_B's integration was never finished.** It still runs on its own separate HR system,
    two years after being acquired.
-2. **Its Senior Managers started quitting.** Nearly 1 in 5 of them left (18%), against 6.7% at
+2. **Its Senior Managers started quitting.** They leave at 9.8% a year, against 2.9% at
    Entity_A -- about three times the rate. These are the leaders staff actually see day to day.
 3. **Staff stopped trusting NovaCorp's leadership, and lost their sense of what the company is
    for.** These two things collapsed by about 0.30 points each. Everything else -- their direct
@@ -121,7 +121,7 @@ better than NovaCorp's own people, and are leaving anyway.
 ### 6. High-potential employees leave at nearly 1.5x the rate of everyone else
 **In plain English.** 'HIPO' (high-potential) is a formal talent-review tag: managers and HR identify a subset of employees as future leaders, distinct from a performance rating. We compared the attrition rate of HIPO-flagged employees to everyone else, using a chi-square test (a standard test for whether two groups' rates differ by more than chance would explain).
 
-**What the data shows.** HIPO-flagged employees leave at 15.0%, vs 10.0% for everyone else -- a 1.50x lift, and it's statistically about as certain as these tests get (p=9.69e-08, far below the usual 0.05 threshold for 'real').
+**What the data shows.** HIPO-flagged employees leave at 7.3%, vs 4.5% for everyone else -- a 1.64x lift, and it's statistically about as certain as these tests get (p=1.185e-07, far below the usual 0.05 threshold for 'real').
 
 **So what.** NovaCorp's talent-review process is working -- it's correctly spotting future leaders. But the company is then losing them at a higher rate than everyone else. That's a specific, identifiable population (already tagged in the HR system) that deserves its own dedicated retention track, separate from broader engagement fixes.
 
@@ -208,7 +208,7 @@ better than NovaCorp's own people, and are leaving anyway.
 ### 14. A likely mechanism: Entity_B's Senior Manager layer is itself leaving at ~3x Entity_A's rate
 **In plain English.** Having found that Entity_B's people have lost trust in senior leadership, the obvious next question is whether Entity_B's own leaders are leaving -- which would mean staff are repeatedly watching the layer above them walk out. We tested attrition rates level by level, Entity_A vs Entity_B.
 
-**What the data shows.** At Level 3 (Senior Manager), Entity_A loses 6.7% while Entity_B loses 18.0% -- roughly a 3x difference on matched sample sizes (n=150 vs n=150), and statistically significant (p=0.0050). Across all of Level 3 and above, Entity_B runs 14.8% against Entity_A's 6.2%. Notably, at Level 5 and above no acquired-entity leaders departed at all in the window -- so this is specifically the Senior Manager tier, the leadership layer closest to frontline staff, rather than the executive tier.
+**What the data shows.** At Level 3 (Senior Manager), Entity_A loses 2.9% while Entity_B loses 9.8% -- roughly a 3x difference on matched sample sizes (n=140 vs n=123), and statistically significant (p=0.0047). Across all of Level 3 and above, Entity_B runs 7.3%/yr against Entity_A's 2.8%. Notably, at Level 5 and above no acquired-entity leaders departed at all in the window -- so this is specifically the Senior Manager tier, the leadership layer closest to frontline staff, rather than the executive tier.
 
 **So what.** This offers a plausible, evidence-based explanation for the collapse in senior-leadership trust and purpose: Entity_B staff are watching their most visible leadership layer disappear, which is exactly the group that would normally communicate what the integration means and hold the sense of mission together. It also suggests the intervention has to start by stabilising the Entity_B Senior Manager population itself -- retaining and re-equipping that layer -- before any broader communication effort will land, since there would otherwise be nobody credible left to deliver it.
 
