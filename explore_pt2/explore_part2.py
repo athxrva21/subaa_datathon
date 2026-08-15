@@ -974,14 +974,13 @@ def entity_dimension_diagnosis(emp, eng_global):
     lo, hi = tbl.gap.min(), tbl.gap.max()
     ax.set_xlim(lo * 1.30, max(hi * 1.80, 0.045))
 
-    for i, (_, r) in enumerate(tbl.iterrows()):
-        ax.text(r.gap - 0.008 if r.gap < 0 else r.gap + 0.004, i,
-                f"p={r.p_value:.2g}", va="center",
-                ha="right" if r.gap < 0 else "left", fontsize=8)
+    # No p-values on the bars. This chart sits on slide 7 in front of an HR
+    # audience, and the colour plus the bar length already carry the finding.
+    # The full test results are in appendix A8.
     ax.set_xlabel("Entity_B score minus Entity_A score (1-5 scale)")
     ax.set_title("Entity_B minus Entity_A, all eight engagement dimensions")
     ax.annotate(f"Employee-level means. Entity_A n={len(a):,}, Entity_B n={len(b):,}. "
-                f"Welch t-test, highlighted where p<0.01 and the gap exceeds 0.1pt.",
+                f"Highlighted where the gap is too large to be chance.",
                 xy=(0, -0.16), xycoords="axes fraction", fontsize=7.5, color="#5A5A66")
     f1 = savefig(fig, "entity_b_dimension_diagnosis")
 

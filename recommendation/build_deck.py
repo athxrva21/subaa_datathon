@@ -194,7 +194,7 @@ def table(slide, x, y, w, rows, col_w, header_fill=DEEP, row_h=Inches(0.38),
     return tbl
 
 
-def callout(slide, x, y, w, h, text, accent=PURPLE, size=12.5):
+def callout(slide, x, y, w, h, text, accent=PURPLE, size=14.5):
     rect(slide, x, y, Inches(0.055), h, fill=accent)
     tf = textbox(slide, x + Inches(0.22), y, w - Inches(0.22), h,
                  anchor=MSO_ANCHOR.MIDDLE)
@@ -275,7 +275,7 @@ def slide_03(prs):
             Inches(5.35), Inches(1.95), Inches(7.35), Inches(4.75))
     callout(s, MARGIN, Inches(6.05), Inches(4.35), Inches(0.72),
             "The same replacement-cost formula Finance gave us, applied to a "
-            "population their flag excludes.", accent=CORAL, size=11)
+            "population their flag excludes.", accent=CORAL, size=13)
 
 
 def slide_04(prs):
@@ -298,7 +298,7 @@ def slide_04(prs):
     callout(s, MARGIN, Inches(6.02), Inches(4.35), Inches(0.80),
             "Not bad faith. A retrospective, self-assessed metric that structurally "
             "exonerates the decision-maker is a justification, not a measurement.",
-            accent=CORAL, size=10.5)
+            accent=CORAL, size=12.5)
 
 
 def slide_05(prs):
@@ -321,7 +321,7 @@ def slide_05(prs):
     callout(s, Inches(8.15), Inches(4.60), Inches(4.6), Inches(1.15),
             "Only one of these moves in your favour, and it's the smallest one. "
             "The two that moved against you were both sized with a definition that "
-            "excluded the expensive cases.", size=11)
+            "excluded the expensive cases.", size=13)
 
 
 def slide_06(prs):
@@ -330,13 +330,13 @@ def slide_06(prs):
            "Entity_B loses people at twice Entity_A's rate, and it's the one still "
            "on its own HR system.", 6,
            "Rates are annualised voluntary exits ÷ active headcount (n = 12,003), the same "
-           "convention used on every rate in this deck. Chi-square, Entity_B vs Entity_A, "
-           "p = 8×10⁻⁹.", hl_size=25)
+           "convention used on every rate in this deck. Every test we ran is listed in appendix A8.",
+           hl_size=25)
     bullets(s, MARGIN, Inches(2.15), Inches(4.35), Inches(4.2), [
         "NovaCorp-Origin **4.5%** · Entity_A **3.6%** · **Entity_B 7.0%** · "
         "Entity_C **4.6%**, per year.",
-        "Entity_B vs Entity_A on 1,601 and 1,804 active staff. The most "
-        "statistically solid finding in the analysis.",
+        "That gap is on 1,601 and 1,804 active staff. It is the clearest and most "
+        "reliable finding in the whole analysis.",
         "Entity_B was acquired in FY2023 and **still runs on BambooHR**, two years "
         "on. Entity_A was absorbed onto the core system and is now the healthiest "
         "cohort in the company.",
@@ -348,20 +348,20 @@ def slide_06(prs):
     callout(s, MARGIN, Inches(5.90), Inches(4.35), Inches(0.90),
             "Entity_B isn't where the most dollars sit. NovaCorp-Origin holds $29.2M "
             "of the $45.1M on headcount alone. Entity_B is where the leverage is: "
-            "$8.4M in 1,601 people you already know how to fix.", size=10.5)
+            "$8.4M in 1,601 people you already know how to fix.", size=12.5)
 
 
 def slide_07(prs):
     s = blank(prs)
     chrome(s, "It isn't pay, and it isn't their managers",
            "Six of eight engagement dimensions are fine. Two collapsed.", 7,
-           "Employee-level means across five waves, Welch's t-test. Entity_A n = 1,938, "
-           "Entity_B n = 1,697 responders. Composite index: Entity_B 3.280 vs Entity_A 3.366.")
+           "Employee-level means across five waves. Entity_A n = 1,938, Entity_B n = 1,697 "
+           "responders. Composite index: Entity_B 3.280 vs Entity_A 3.366. Tests in appendix A8.")
     bullets(s, MARGIN, Inches(2.05), Inches(4.35), Inches(4.4), [
-        "**Manager effectiveness**: 3.344 vs 3.371, **no difference** (p = 0.35).",
-        "**Psychological safety**: 3.351 vs 3.354, **no difference** (p = 0.91).",
-        "**Senior leadership trust −0.301** (p = 1.5×10⁻²⁵). "
-        "**Purpose & meaning −0.300** (p = 2.6×10⁻²⁵).",
+        "**Manager effectiveness**: 3.344 vs 3.371. **No meaningful difference.**",
+        "**Psychological safety**: 3.351 vs 3.354. **No meaningful difference.**",
+        "**Senior leadership trust is down 0.301** and **purpose & meaning down 0.300** — "
+        "far larger than any other gap, and the only two that are not explainable by chance.",
         "And it isn't money. Entity_B sits at **0.961** compa-ratio against "
         "NovaCorp-Origin's **0.937**. They are paid better and leave anyway.",
     ], size=12.5, gap=11)
@@ -370,7 +370,7 @@ def slide_07(prs):
     callout(s, MARGIN, Inches(5.72), Inches(4.35), Inches(1.05),
             "Why it never showed on your dashboard: the composite index averages all "
             "eight dimensions, so two collapsed scores are diluted by six healthy ones. "
-            "A gap of 0.085 that looks like nothing.", accent=GOLD, size=10.5)
+            "A gap of 0.085 that looks like nothing.", accent=GOLD, size=12.5)
 
 
 def slide_08(prs):
@@ -399,15 +399,15 @@ def slide_09(prs):
     chrome(s, "You've already solved this once",
            "Entity_A is at 3.6%, below NovaCorp's own 4.5%. Integration works.", 9,
            "Attrition is annualised voluntary on active headcount. Response rate is the mean "
-           "of each employee's own rate across five waves. Entity_A vs Entity_C, p = 0.101, "
-           "not significant.")
+           "of each employee's own rate across five waves. Entity_C is not yet distinguishable "
+           "from Entity_A.")
     bullets(s, MARGIN, Inches(2.15), Inches(4.35), Inches(4.2), [
         "Entity_A (FY2022, fully integrated) is now the **safest cohort in the "
         "company**, better than NovaCorp-Origin itself.",
         "Its survey response rate has recovered to **83.8%**, indistinguishable "
         "from NovaCorp-Origin.",
-        "Entity_C (late FY2024) is at **4.6%** and statistically indistinguishable "
-        "from Entity_A. It is **not** a second Entity_B yet.",
+        "Entity_C (late FY2024) is at **4.6%**, tracking with Entity_A rather than "
+        "Entity_B. It is **not** a second Entity_B yet.",
     ], size=13, gap=13)
     # Purpose-built for this slide. A Kaplan-Meier curve was the obvious choice
     # and is wrong here: NovaCorp-Origin's curve is dominated by long-tenure
@@ -416,9 +416,9 @@ def slide_09(prs):
     picture(s, DECKFIG / "S9_entity_recovery.png",
             Inches(5.35), Inches(1.95), Inches(7.35), Inches(4.50))
     callout(s, MARGIN, Inches(5.85), Inches(4.35), Inches(0.95),
-            "This turns the recommendation from “we hope this helps” into "
-            "“you have already done this once, in this company, with this "
-            "workforce.” It also sets your success measure.", accent=TEAL, size=10.5)
+            "Track Entity_B against Entity_A's recovery, not against its own past or a generic "
+            "benchmark. Entity_A is the only comparison that reflects this workforce.",
+            accent=TEAL, size=12.5)
 
 
 def slide_10(prs):
@@ -455,7 +455,7 @@ def slide_10(prs):
 
     callout(s, MARGIN, Inches(6.72), Inches(12.0), Inches(0.5),
             "Notice what's not on this list: a pay round, a manager training programme, "
-            "and cutting agency recruitment. The data rules out all three.", size=11.5)
+            "and cutting agency recruitment. The data rules out all three.", size=13.5)
 
 
 def slide_11(prs):
@@ -479,7 +479,7 @@ def slide_11(prs):
             "The 20% and 40% are assumptions, not findings. That's the band typically claimed "
             "for targeted retention programmes. We show both so the decision doesn't depend on "
             "the optimistic one. The first lever is a definition change, so its return isn't "
-            "capped by budget at all.", size=11.5)
+            "capped by budget at all.", size=13.5)
 
     rect(s, MARGIN, Inches(5.55), Inches(12.1), Inches(1.05), fill=RGBColor(0xFF, 0xF6, 0xE6))
     tf = textbox(s, MARGIN + Inches(0.3), Inches(5.72), Inches(11.5), Inches(0.75))
@@ -495,15 +495,16 @@ def slide_12(prs):
     chrome(s, "How not to act on this",
            "A “who stopped answering” flag looks free. It flags 16.6% of 18–24s "
            "and 1.4% of 45–49s.", 12,
-           "Four-fifths rule applied to a proposed individual flight-risk flag, on all active "
-           "staff. All figures from ethics_audit.py. Full fairness method and results in "
+           "The four-fifths rule is the standard EEOC adverse-impact screen. Applied to a proposed "
+           "individual flight-risk flag across all active staff. Full method and results in "
            "appendix A4.", hl_size=25)
     bullets(s, MARGIN, Inches(2.05), Inches(4.9), Inches(4.5), [
         "The obvious move from our own analysis is a flight-risk score built on survey "
         "silence. **We recommend against deploying it at individual level.**",
-        "Under the **four-fifths rule** it fails on age (ratio **0.08**, a twelvefold gap), "
-        "on role level (L1 9.2% vs L5 1.4%) and on acquisition cohort (Entity_C 31.7% vs "
-        "NovaCorp-Origin 2.4%).",
+        "It flags one age group **twelve times** more often than another, and shows the same "
+        "pattern by role level (L1 9.2% vs L5 1.4%) and by acquisition cohort (Entity_C "
+        "31.7% vs NovaCorp-Origin 2.4%). That is the standard legal test for adverse "
+        "impact, and it fails on all three.",
         "It is also **wrong most of the time**: **901 false positives** against 263 true "
         "ones, **precision 23%**. The dominant outcome is a career conversation about "
         "someone who was never leaving.",
@@ -513,9 +514,8 @@ def slide_12(prs):
     picture(s, EFIG / "E3_adverse_impact_age.png",
             Inches(5.85), Inches(1.95), Inches(6.85), Inches(4.60))
     callout(s, MARGIN, Inches(6.00), Inches(4.9), Inches(0.80),
-            "We're showing you the thing we decided not to recommend. In a performance or "
-            "redundancy conversation this is a discrimination exposure that costs more than "
-            "the attrition does.", accent=CORAL, size=10.5)
+            "In a performance or redundancy conversation, this is a discrimination exposure that "
+            "costs more than the attrition does.", accent=CORAL, size=12.5)
 
 
 def slide_13(prs):
@@ -562,7 +562,7 @@ def slide_14(prs):
     s = blank(prs)
     chrome(s, "What we can't tell you",
            "Seven limits on what this analysis can support.", 14,
-           "Full data-quality register in appendix A6. Statistical test register in A8.")
+           "Full data-quality register in appendix A6. Every test we ran is listed in A8.")
     left = [
         "**Two-year window, annualised.** All rates are voluntary exits ÷ 2 years ÷ active "
         "headcount = **4.7%/yr**. Your FY2025 Annual Report's “10.4% voluntary "
@@ -588,7 +588,7 @@ def slide_14(prs):
 
     callout(s, MARGIN, Inches(6.05), Inches(12.0), Inches(0.62),
             "On a strict voluntary reading you have already met the FY2026 sub-9.5% target. "
-            "That's worth resolving before the next board pack.", accent=GOLD, size=11.5)
+            "That's worth resolving before the next board pack.", accent=GOLD, size=13.5)
 
 
 def slide_15(prs):
