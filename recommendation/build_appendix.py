@@ -13,7 +13,7 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from build_deck import (blank, rect, textbox, para, bullets, table, picture,
                         callout, W, H, MARGIN, BODY_W,
                         PURPLE, DEEP, TEAL, CORAL, GOLD, INK, GREY, WHITE,
-                        EFIG, FIG, P2FIG)
+                        EFIG, FIG, P2FIG, SHOW_SOURCE_FOOTNOTES)
 
 
 def ap_chrome(slide, tag, title, subtitle=None, footnote=None):
@@ -32,7 +32,7 @@ def ap_chrome(slide, tag, title, subtitle=None, footnote=None):
         para(tf, subtitle, 11.5, GREY, italic=True, first=True, space_after=0,
              line_spacing=1.15)
 
-    if footnote:
+    if footnote and SHOW_SOURCE_FOOTNOTES:
         tf = textbox(slide, MARGIN, Inches(6.95), Inches(11.2), Inches(0.4))
         para(tf, footnote, 8, GREY, italic=True, first=True, space_after=0)
 

@@ -24,6 +24,12 @@ from PIL import Image
 TEAM_NAME = "O for 4"
 DATE_LINE = "15 August 2026"
 
+# The grey italic source line in the bottom-left corner of a slide. Switched
+# off for the delivered deck. The strings stay in the slide functions on
+# purpose — they are the provenance record, appendix A14 traces every figure
+# the same way, and flipping this back to True restores them everywhere.
+SHOW_SOURCE_FOOTNOTES = False
+
 # --------------------------------------------------------------------------
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -135,7 +141,7 @@ def chrome(slide, eyebrow, headline, number, footnote=None, hl_size=27):
     para(tf, headline, hl_size, DEEP, bold=True, first=True, space_after=0,
          line_spacing=1.06)
 
-    if footnote:
+    if footnote and SHOW_SOURCE_FOOTNOTES:
         tf = textbox(slide, MARGIN, Inches(6.92), Inches(11.2), Inches(0.42))
         para(tf, footnote, 8, GREY, italic=True, first=True, space_after=0,
              line_spacing=1.12)
@@ -481,13 +487,9 @@ def slide_11(prs):
             "the optimistic one. The first lever is a definition change, so its return isn't "
             "capped by budget at all.", size=13.5)
 
-    rect(s, MARGIN, Inches(5.55), Inches(12.1), Inches(1.05), fill=RGBColor(0xFF, 0xF6, 0xE6))
-    tf = textbox(s, MARGIN + Inches(0.3), Inches(5.72), Inches(11.5), Inches(0.75))
-    para(tf, "$7.9M is the corrected figure.", 12, DEEP, bold=True, first=True, space_after=3)
-    para(tf, "An earlier draft said $29.6M. That counted the baseline early attrition every "
-             "employer carries, not the excess attributable to the acquisition cohorts. "
-             "Method and restatement in appendix A7.", 11, INK, space_after=0,
-         line_spacing=1.14)
+    # The $29.6M -> $7.9M restatement note used to sit here. It is a note about
+    # our own drafting, not about NovaCorp, so it belongs in the method trail:
+    # appendix A7 carries it, and EARLY_TENURE_CORRECTION.md has the workings.
 
 
 def slide_12(prs):
