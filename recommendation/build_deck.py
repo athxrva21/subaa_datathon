@@ -561,7 +561,7 @@ def slide_13(prs):
 def slide_14(prs):
     s = blank(prs)
     chrome(s, "What we can't tell you",
-           "The limits of this analysis, stated before you ask.", 14,
+           "Seven limits on what this analysis can support.", 14,
            "Full data-quality register in appendix A6. Statistical test register in A8.")
     left = [
         "**Two-year window, annualised.** All rates are voluntary exits ÷ 2 years ÷ active "
@@ -572,10 +572,10 @@ def slide_14(prs):
         "previous employer. We genuinely cannot rule this out.",
         "**Engagement is only observed for responders**, and leavers responded less, so every "
         "disengagement figure is a lower bound.",
-        "**Association, not causation.** Senior Manager churn and collapsed trust move "
-        "together. We cannot say which drives which.",
     ]
     right = [
+        "**Association, not causation.** Senior Manager churn and collapsed trust move "
+        "together. We cannot say which drives which.",
         "**regrettable_flag, performance_band_at_exit and stated_exit_reason are retrospective "
         "HR judgements.** We use them as the object of analysis, not as ground truth.",
         "**The 2025-H2 review cycle is missing**, so performance data is up to 12 months stale "

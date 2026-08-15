@@ -239,8 +239,7 @@ def a6_issues(prs):
 def a6_clean(prs):
     s = blank(prs)
     ap_chrome(s, "A6", "Data quality register — checks that came back clean",
-              "Documenting what we verified and found sound matters as much as what we found "
-              "broken.")
+              "Nine integrity checks across the four files, and what each returned.")
     rows = [
         ["Check", "Result"],
         ["Duplicate employee_id in employees.csv", "0"],
@@ -695,9 +694,8 @@ def a15(prs):
 def a16(prs):
     s = blank(prs)
     ap_chrome(s, "A16", "What to measure, and when you can actually read it",
-              "Slide 9 says Entity_A sets the success measure. This is that measure, stated "
-              "so it can go in front of a board — and paced to the survey cadence NovaCorp "
-              "actually runs.",
+              "Targets are Entity_A's current position. Milestones are paced to the survey "
+              "cadence NovaCorp actually runs.",
               "Baselines from cost_model.py. Targets are Entity_A's present position.")
     rows = [
         ["Metric", "Entity_B today", "Target (Entity_A today)", "First readable", "Why this one"],
@@ -750,8 +748,7 @@ def a16(prs):
 def a17(prs):
     s = blank(prs)
     ap_chrome(s, "A17", "Model card — cohort diagnostic",
-              "The accompanying dashboard is a model, so it gets a model card. Intended use, "
-              "prohibited use, and known limits, stated up front rather than discovered later.")
+              "Intended use, prohibited use, and known limits for the accompanying dashboard.")
 
     cols = [
         ("INTENDED USE", TEAL, [
@@ -792,8 +789,7 @@ def a17(prs):
              "on age, 0.15 on role level and 0.08 on acquisition cohort, and its precision is "
              "22.6% — 901 false positives against 263 true ones. Low response is concentrated in "
              "the acquisition cohorts, so at individual level the flag would substantially be "
-             "measuring integration failure rather than intent. We did not ship it, and this "
-             "page exists so that decision travels with the tool.", 11, INK, space_after=0,
+             "measuring integration failure rather than intent, so we did not ship it.", 11, INK, space_after=0,
          line_spacing=1.18)
 
     callout(s, MARGIN, Inches(6.90), Inches(12.0), Inches(0.4),
@@ -802,5 +798,98 @@ def a17(prs):
             size=10)
 
 
+# ---------------------------------------------------------------- A18
+def _qa_page(prs, tag, title, subtitle, pairs, footnote=None):
+    s = blank(prs)
+    ap_chrome(s, tag, title, subtitle, footnote)
+    y = Inches(1.72)
+    for q, a, ref in pairs:
+        tf = textbox(s, MARGIN, y, Inches(11.9), Inches(0.28))
+        para(tf, "“" + q + "”", 12.5, DEEP, bold=True, first=True, space_after=4)
+        tf = textbox(s, MARGIN, y + Inches(0.30), Inches(10.3), Inches(0.62))
+        para(tf, a, 11, INK, first=True, space_after=0, line_spacing=1.18)
+        if ref:
+            tf = textbox(s, Inches(11.1), y + Inches(0.30), Inches(1.6), Inches(0.3))
+            para(tf, ref, 9.5, PURPLE, bold=True, first=True, space_after=0,
+                 align=PP_ALIGN.RIGHT)
+        y += Inches(1.05)
+    return s
+
+
+def a18_a(prs):
+    _qa_page(prs, "A18", "Questions we expect — the number",
+             "Prepared answers, with the page that backs each one. Anyone on the team can "
+             "present from this.",
+             [
+              ("Your number is double Finance's. Which is right?",
+               "Both, for different questions. Finance priced the departures HR flagged. We "
+               "priced the departures that cost you money. The gap is the finding, not a "
+               "disagreement about arithmetic — we used their formula and their constants.",
+               "Slides 3–5"),
+              ("Your buckets total $65M, not $42M. Haven't you just inflated the problem?",
+               "Two of the three moved against you and one moved in your favour, and we show "
+               "all three. The hiring bucket you were most worried about is the smallest thing "
+               "here at $2.3M against Finance's $4–6M. If we were inflating, that is the number "
+               "we would have left alone.",
+               "Slide 5"),
+              ("How confident are you in $45.1M?",
+               "It is a point estimate on your own constants. The defensible range is $34–56M, "
+               "varying the replacement multiplier 1.0–2.0× and backfill 70–100%. Every cell in "
+               "that grid is above the $14.3M you currently count, so the finding does not "
+               "depend on the assumption.",
+               "A5"),
+              ("You changed your own figure from $29.6M to $7.9M. Why trust the rest?",
+               "Because we found it, said so, and showed the method. The original counted the "
+               "baseline early attrition every employer carries as if it were addressable. "
+               "Correcting it cost us $21.7M of headline and is the reason to believe the "
+               "numbers we kept.",
+               "A7"),
+              ("How do we know any of these numbers are right?",
+               "Every figure on a slide traces to the script that produces it, listed page by "
+               "page. Two independent implementations agree on the early-tenure lever to the "
+               "dollar; four agree on the entity attrition rates to the decimal. Run them "
+               "yourself.",
+               "A14, A11"),
+             ])
+
+
+def a18_b(prs):
+    _qa_page(prs, "A18", "Questions we expect — the recommendation",
+             "Continued.",
+             [
+              ("Are you telling me my HR team is dishonest?",
+               "No. The flag was almost certainly built to spot top-talent loss, and it does "
+               "that for Outstanding. The failure is that it was then used as a cost metric, "
+               "which it was never designed to be. That is a governance gap, not a personnel "
+               "matter.",
+               "Slide 4"),
+              ("Isn't Entity_B just sitting in your worst departments?",
+               "No. Controlling for department, role level, pay and high-potential status, "
+               "Entity_B still leaves at 1.95× Entity_A (95% CI 1.55–2.44). Only one of six "
+               "department terms is significant, and Risk & Compliance comes out at exactly "
+               "1.00 once entity is in the model.",
+               "A15"),
+              ("Entity_B is only 1,601 people. Why should I care?",
+               "You shouldn't care about it for the dollars — NovaCorp-Origin holds $29.2M of "
+               "the $45.1M on headcount alone. You should care because it is the one place "
+               "where the cause is identified, the fix is proven inside your own company, and "
+               "the budget is already guided.",
+               "Slides 6, 9"),
+              ("Can't I just run the silence flag? It's free.",
+               "At team level, yes. As an individual score it fails the four-fifths rule on age "
+               "by a factor of twelve and is wrong roughly three times in four. If it ever "
+               "surfaced in a performance or redundancy conversation, the exposure would cost "
+               "more than the attrition does.",
+               "Slides 12–13, A4"),
+              ("What would change your mind?",
+               "Pre-acquisition Entity_B engagement data. If they arrived unhappy from their "
+               "previous employer, the integration story weakens considerably and we cannot "
+               "currently rule that out. A shorter survey cadence would also test it: if "
+               "response rate does not move within two waves of the flag change, our leading "
+               "indicator is wrong.",
+               "Slide 14, A16"),
+             ])
+
+
 APPENDIX = [divider, a1, a2, a3, a4, a5, a6_issues, a6_clean, a7, a8_main,
-            a8_nulls, a9, a10, a11, a12, a13, a14, a15, a16, a17]
+            a8_nulls, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18_a, a18_b]

@@ -981,7 +981,7 @@ def entity_dimension_diagnosis(emp, eng_global):
     ax.set_xlabel("Entity_B score minus Entity_A score (1-5 scale)")
     ax.set_title("Entity_B minus Entity_A, all eight engagement dimensions")
     ax.annotate(f"Employee-level means. Entity_A n={len(a):,}, Entity_B n={len(b):,}. "
-                f"Welch t-test, coral where p<0.01 and gap>0.1pt.",
+                f"Welch t-test, highlighted where p<0.01 and the gap exceeds 0.1pt.",
                 xy=(0, -0.16), xycoords="axes fraction", fontsize=7.5, color="#5A5A66")
     f1 = savefig(fig, "entity_b_dimension_diagnosis")
 

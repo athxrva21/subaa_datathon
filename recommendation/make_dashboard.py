@@ -227,14 +227,28 @@ select,input[type=search]{padding:6px 9px;border:1px solid var(--line);border-ra
 margin-bottom:14px;border-radius:2px}
 footer{padding:16px 28px;color:var(--mut);font-size:11.5px;border-top:1px solid var(--line);margin-top:20px}
 code{font-family:Menlo,monospace;font-size:11.5px;color:var(--d)}
+button.act{padding:6px 12px;border:1px solid var(--line);background:#fff;border-radius:3px;
+font:600 12px inherit;color:var(--d);cursor:pointer}
+button.act:hover{background:var(--panel)}
+.sbar{display:inline-block;height:5px;border-radius:3px;background:var(--p);vertical-align:middle;
+margin-left:6px}
+@media print{
+ /* The deck may be printed in black and white, so the score pills lose their
+    meaning. The inline bar and the numeric score survive. */
+ body{font-size:10px}
+ .tabs,button.act,input,select{display:none!important}
+ header{background:#460073!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ th{background:#460073!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .pill{border:1px solid #666;color:#000!important;background:#fff!important}
+ tr,.panel,.card{page-break-inside:avoid}
+}
 </style></head><body>
 <header>
 <h1>NovaCorp cohort diagnostic</h1>
-<div class="sub">Team O for 4 · Accenture × SUBAA People Analytics Challenge · companion to the recommendation deck</div>
+<div class="sub">Team O for 4 · Accenture × SUBAA People Analytics Challenge</div>
 <div class="ethics"><b>This tool cannot show you an individual.</b> There is no employee ID, name or
 manager ID anywhere in this file — aggregation happens before the data is written, not in the
-interface. Cohorts below __MINR__ survey responses are suppressed entirely. This is the design
-slides 12 and 13 recommend, built the way we said it should be built.</div>
+interface. Cohorts below __MINR__ survey responses are suppressed entirely.</div>
 </header>
 <div class="wrap">
 <div class="tabs">
@@ -313,6 +327,7 @@ function cohorts(){
   <label>Department <select id="fd">${["all",...deps].map(e=>
    `<option ${e===filterDept?"selected":""}>${e}</option>`).join("")}</select></label>
   <input type="search" id="q" placeholder="Filter…" value="${q}">
+  <button class="act" id="csv">Download CSV</button>
   <span class="note">${rows.length} cohorts shown</span></div>
  <div class="scroll"><table><tr>${th("key","Department · Entity · Level")}${th("headcount","Active")}
  ${th("n_resp","Respondents")}${th("attrition","Attrition %/yr")}${th("resp_rate","Response %")}
@@ -326,7 +341,9 @@ function cohorts(){
      <td>${fmt(r.trust,3)}</td><td>${fmt(r.purpose,3)}</td>
      <td style="font-size:11px;color:var(--mut)">R ${fmt(r.comp.response)} ·
        B ${fmt(r.comp.belief)} · A ${fmt(r.comp.attrition)}</td>
-     <td><span class="pill ${r.bandName}">${fmt(r.score)}</span></td></tr>`).join("")}</table></div>
+     <td><span class="pill ${r.bandName}">${fmt(r.score)}</span>
+         <span class="sbar" style="width:${Math.max(2,Math.min(46,r.score*1.1))}px"></span></td>
+     </tr>`).join("")}</table></div>
  <div class="note">R = response gap, B = belief gap (trust and purpose), A = attrition gap. Each is a
  percentage shortfall against the company figure, capped at 100. Respondents are active staff only.
  Click any header to sort.</div>`;
@@ -385,8 +402,8 @@ function fairness(){
  <div class="note">The dominant outcome of deploying this per-person is a career conversation about
  someone who was never leaving.</div></div>
  <div class="panel"><h3>What we built instead</h3>
- Cohort-level only, minimum ${D.minResponses} responses, suppression visible rather than silent, and
- the score decomposed into three auditable components. Low response is heavily concentrated in the
+ Cohort-level only, minimum ${D.minResponses} responses, suppressed cohorts labelled, and the
+ score split into its three components. Low response is heavily concentrated in the
  acquisition cohorts, so at individual level the flag would substantially be measuring
  <b>integration failure</b>, not intent.
  <div class="note">If a participation metric is ever used, staff should be told it exists. A survey
@@ -400,6 +417,25 @@ function render(){
  $("#view").innerHTML=views[cur]();
  document.querySelectorAll("th[data-k]").forEach(th=>th.onclick=()=>{
   const k=th.dataset.k; if(sortKey===k)sortDir*=-1; else{sortKey=k;sortDir=-1;} render();});
+ const cs=$("#csv");
+ if(cs)cs.onclick=()=>{
+  // Exports exactly what is on screen, suppressed cohorts included as
+  // suppressed. No identifiers exist to export.
+  const rows=D.cohorts.filter(c=>
+   (filterEnt==="all"||c.parts[1]===filterEnt) &&
+   (filterDept==="all"||c.parts[0]===filterDept) &&
+   (q===""||c.key.toLowerCase().includes(q)));
+  const head=["department","entity","level","active","respondents","attrition_pct_yr",
+              "response_pct","trust","purpose","score","band"];
+  const esc=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const body=rows.map(r=>[r.parts[0],r.parts[1],r.parts[2],r.headcount,r.n_resp,
+   r.attrition,r.resp_rate,r.trust,r.purpose,r.score,r.bandName].map(esc).join(","));
+  const blob=new Blob([[head.join(","),...body].join("\\n")],{type:"text/csv"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="novacorp_cohort_diagnostic.csv"; a.click();
+  URL.revokeObjectURL(a.href);
+ };
  const fe=$("#fe"),fd=$("#fd"),qq=$("#q"),sl=$("#sl");
  if(fe)fe.onchange=e=>{filterEnt=e.target.value;render()};
  if(fd)fd.onchange=e=>{filterDept=e.target.value;render()};

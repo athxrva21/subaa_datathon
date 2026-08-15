@@ -145,10 +145,17 @@ brief_lo, brief_hi = np.array([22, 12, 4]), np.array([25, 15, 6])
 ours = np.array([_regrettable, _diseng, _hiring])
 x = np.arange(3); w = .34
 ax.bar(x - w/2, brief_hi - brief_lo, w, bottom=brief_lo, color="#C9C9D2", label="Finance's estimate")
-ax.bar(x + w/2, ours, w, color=[CORAL if o > h else TEAL for o, h in zip(ours, brief_hi)],
-       label="Restated on the data")
+# Hatch plus an arrow in the value label, so the larger/smaller distinction does
+# not depend on colour alone. Coral and teal sit 21 luminance apart and become
+# the same grey when the deck is printed in black and white.
+bigger = [o > h for o, h in zip(ours, brief_hi)]
+ax.bar(x + w/2, ours, w,
+       color=[CORAL if b else TEAL for b in bigger],
+       hatch=["" if b else "//" for b in bigger],
+       edgecolor="white", linewidth=0)
 for i, v in enumerate(ours):
-    ax.text(i + w/2, v + 1, f"${v:.1f}M", ha="center", fontweight="bold", color=DEEP)
+    ax.text(i + w/2, v + 1, f"{'▲' if bigger[i] else '▼'} ${v:.1f}M",
+            ha="center", fontweight="bold", color=DEEP)
 for i, (lo, hi) in enumerate(zip(brief_lo, brief_hi)):
     ax.text(i - w/2, hi + 1, f"${lo}-{hi}M", ha="center", fontsize=9, color=GREY)
 
@@ -159,8 +166,9 @@ ax.set_ylim(0, 56)
 # direction out stops the chart being read as a simple redistribution.
 from matplotlib.patches import Patch
 ax.legend(handles=[Patch(color="#C9C9D2", label="Finance's estimate"),
-                   Patch(color=CORAL, label="Restated, larger than Finance"),
-                   Patch(color=TEAL, label="Restated, smaller than Finance")],
+                   Patch(facecolor=CORAL, label="▲ Restated, larger than Finance"),
+                   Patch(facecolor=TEAL, hatch="//", edgecolor="white",
+                         label="▼ Restated, smaller than Finance")],
           loc="upper right", fontsize=9.5)
 ax.set_title("Two buckets are bigger than Finance thought, one is smaller")
 ax.annotate(f"Finance sized the three buckets at $38–46M a year, midpoint $42M. "

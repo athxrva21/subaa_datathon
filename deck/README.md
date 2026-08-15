@@ -8,11 +8,12 @@
 
 | File | What it is |
 |---|---|
-| `NovaCorp_deck.pdf` | **Primary deliverable.** 15 main slides, then 20 appendix pages (A1–A17). |
+| `NovaCorp_executive_summary.pdf` | **Start here.** The whole argument on one page. |
+| `NovaCorp_deck.pdf` | **Primary deliverable.** 15 main slides, then 22 appendix pages (A1–A18). |
 | `NovaCorp_cohort_dashboard.html` | Interactive cohort diagnostic. Single file, no install, opens by double-click. |
 | `NovaCorp_deck.pptx` | Editable source of the deck. |
 
-The main deck is the first 15 pages. Everything from the "Appendix" divider onward is supporting detail, per §7's "no limit on appendix slides".
+The main deck is the first 15 pages. Everything from the "Appendix" divider onward is supporting detail, per §7's "no limit on appendix slides". **A18 is our own Q&A prep** — the questions we expect and the page that backs each answer.
 
 ---
 
@@ -22,7 +23,7 @@ The main deck is the first 15 pages. Everything from the "Appendix" divider onwa
 
 The obvious build here is a flight-risk score per employee. We built one, tested it, and did not ship it. On the four-fifths rule it returns impact ratios of **0.08 on age**, 0.15 on role level and 0.08 on acquisition cohort, and its precision is **22.6%** — 901 false positives against 263 true positives. Low survey response is heavily concentrated in the acquisition cohorts, so at individual level the flag would substantially be measuring integration failure rather than intent.
 
-Slides 12 and 13 recommend against deploying it that way. The dashboard is built the way we said it should be built: cohort level only, minimum 8 responses, suppression shown rather than hidden. There is no employee ID, name or manager ID anywhere in the file — aggregation happens before the data is written, so it is enforced by construction rather than by policy.
+Slides 12 and 13 recommend against deploying it that way, so the dashboard works at cohort level only, with a minimum of 8 responses and suppressed cohorts labelled. There is no employee ID, name or manager ID anywhere in the file — aggregation happens before the data is written.
 
 Appendix A17 is the model card. Appendix A4 has the full fairness results.
 
@@ -60,12 +61,11 @@ Two figures are computed by two independent implementations that agree to the do
 
 ---
 
-## Things we'd want a judge to notice
+## Corrections and nulls
 
-- **We corrected our own headline downward.** An early-tenure lever we had sized at $29.6M is stated at **$7.9M**. The original counted the baseline early attrition every employer carries. Method in A7.
-- **Three of our load-bearing findings are nulls.** Manager effectiveness, psychological safety and pay each show *no* Entity_B effect. Each rules out a seven-figure programme. A8 page 2.
-- **We show a recommendation we decided against.** Slide 12.
-- **Our restated buckets total $65.2M against Finance's $42M.** We say so rather than presenting the more comfortable number.
+- An early-tenure lever we originally sized at $29.6M is stated at **$7.9M**. The original counted the baseline early attrition every employer carries. Method in A7.
+- Three load-bearing findings are nulls: manager effectiveness, psychological safety and pay each show no Entity_B effect. Each rules out a seven-figure programme. A8 page 2.
+- The restated buckets total **$65.2M** against Finance's $42M.
 
 ---
 
