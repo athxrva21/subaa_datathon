@@ -439,7 +439,17 @@ function render(){
  const fe=$("#fe"),fd=$("#fd"),qq=$("#q"),sl=$("#sl");
  if(fe)fe.onchange=e=>{filterEnt=e.target.value;render()};
  if(fd)fd.onchange=e=>{filterDept=e.target.value;render()};
- if(qq)qq.oninput=e=>{q=e.target.value.toLowerCase();render();$("#q").focus()};
+ // render() replaces the whole view, so the input element the user is typing
+ // into is destroyed and rebuilt on every keystroke. Restoring focus alone puts
+ // the caret back at position 0, so the selection offset has to be carried over
+ // as well or typing runs backwards.
+ if(qq)qq.oninput=e=>{
+  const pos=e.target.selectionStart;
+  q=e.target.value.toLowerCase();
+  render();
+  const n=$("#q");
+  if(n){n.focus(); n.setSelectionRange(pos,pos);}
+ };
  if(sl)sl.oninput=e=>{const p=+e.target.value;
   $("#sv").textContent="$"+(D.addressable*p/100).toFixed(1)+"M";$("#pc").textContent=p;};
 }
